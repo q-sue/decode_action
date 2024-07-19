@@ -1,3 +1,13 @@
+https://github.com/smallfawn/decode_action
+转发Q群路飞通杀市面混淆加密
+MK集团一直提倡未加密本，大家可以自己看看学习下自己动手丰衣足食。根据作者描述已经支持obj+v6+v7+py的解密覆盖市面百分之98的脚本。重新fork就行。
+
+没有自动解密的兄弟自行设置下settings(仓库上面)-actions（左边）-general（左边）-Actions permissions选第4个（
+Allow XXXX, and select non-XXXX, actions and reusable workflows）然后下面2个打勾(Allow actions created by GitHub,Allow actions by Marketplace verified creators)☑️最后按save保存结束
+
+
+
+
 代码保护学习ing 
 [url:http://encode.onecc.cc]
 
