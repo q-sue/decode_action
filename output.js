@@ -1,1720 +1,897 @@
-//Tue Aug 06 2024 01:50:17 GMT+0000 (Coordinated Universal Time)
+//Sat Aug 17 2024 14:10:16 GMT+0000 (Coordinated Universal Time)
 //Base:https://github.com/echo094/decode-js
 //Modify:https://github.com/smallfawn/decode_action
-const $ = new Env("西施眼");
-const notify = $.isNode() ? require("../sendNotify") : "";
-(() => {
-  function b(a6) {
-    b = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (a8) {
-      return typeof a8;
-    } : function (a8) {
-      return a8 && "function" == typeof Symbol && a8.constructor === Symbol && a8 !== Symbol.prototype ? "symbol" : typeof a8;
-    };
-    return b(a6);
-  }
-  function c(a6, a7) {
-    var a9 = "undefined" != typeof Symbol && a6[Symbol.iterator] || a6["@@iterator"];
-    if (!a9) {
-      if (Array.isArray(a6) || (a9 = g(a6)) || a7 && a6 && "number" == typeof a6.length) {
-        a9 && (a6 = a9);
-        var aa = 0,
-          ab = function () {};
-        return {
-          s: ab,
-          n: function () {
-            var ah = {
-              done: !0
-            };
-            return aa >= a6.length ? ah : {
-              done: !1,
-              value: a6[aa++]
-            };
-          },
-          e: function (ah) {
-            throw ah;
-          },
-          f: ab
-        };
-      }
-      throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-    }
-    var ac,
-      ad = !0,
-      ae = !1;
-    return {
-      s: function () {
-        a9 = a9.call(a6);
-      },
-      n: function () {
-        var ai = a9.next();
-        ad = ai.done;
-        return ai;
-      },
-      e: function (ai) {
-        ae = !0;
-        ac = ai;
-      },
-      f: function () {
-        try {
-          ad || null == a9.return || a9.return();
-        } finally {
-          if (ae) {
-            throw ac;
-          }
-        }
-      }
-    };
-  }
-  function d(a6, a7) {
-    return j(a6) || i(a6, a7) || g(a6, a7) || f();
-  }
-  function f() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-  function g(a6, a7) {
-    if (a6) {
-      if ("string" == typeof a6) {
-        return h(a6, a7);
-      }
-      var a9 = {}.toString.call(a6).slice(8, -1);
-      "Object" === a9 && a6.constructor && (a9 = a6.constructor.name);
-      return "Map" === a9 || "Set" === a9 ? Array.from(a6) : "Arguments" === a9 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(a9) ? h(a6, a7) : void 0;
-    }
-  }
-  function h(a6, a7) {
-    (null == a7 || a7 > a6.length) && (a7 = a6.length);
-    for (var a8 = 0, a9 = Array(a7); a8 < a7; a8++) {
-      a9[a8] = a6[a8];
-    }
-    return a9;
-  }
-  function i(a6, a7) {
-    var a9 = null == a6 ? null : "undefined" != typeof Symbol && a6[Symbol.iterator] || a6["@@iterator"];
-    if (null != a9) {
-      var aa,
-        ab,
-        ac,
-        ad,
-        ae = [],
-        af = !0,
-        ag = !1;
-      try {
-        if (ac = (a9 = a9.call(a6)).next, 0 === a7) {
-          if (Object(a9) !== a9) {
-            return;
-          }
-          af = !1;
-        } else {
-          for (; !(af = (aa = ac.call(a9)).done) && (ae.push(aa.value), ae.length !== a7); af = !0) {}
-        }
-      } catch (al) {
-        ag = !0;
-        ab = al;
-      } finally {
-        try {
-          if (!af && null != a9.return && (ad = a9.return(), Object(ad) !== ad)) {
-            return;
-          }
-        } finally {
-          if (ag) {
-            throw ab;
-          }
-        }
-      }
-      return ae;
-    }
-  }
-  function j(a6) {
-    if (Array.isArray(a6)) {
-      return a6;
-    }
-  }
-  function k() {
-    'use strict';
+/*
+活动名称：超级818红包活动
+环境变量：jd_818_url // 活动链接\ID 都可以
+        jd_818_threads // 控制并发线程数（正整数），默认1，最大5，尽量使用默认值，否则请开启代理运行
+        jd_818_interval // 自定义运行间隔时长（整数，单位毫秒），默认2000
+        jd_818_notify // 是否推送通知（true/false），默认不推送
+        jd_818_pinFilter // 账号pin过滤，多个用@进行分割
 
-    k = function () {
-      return a8;
-    };
-    var a7,
-      a8 = {},
-      a9 = Object.prototype,
-      aa = a9.hasOwnProperty,
-      ab = Object.defineProperty || function (aD, aE, aF) {
-        aD[aE] = aF.value;
-      },
-      ac = "function" == typeof Symbol ? Symbol : {},
-      ad = ac.iterator || "@@iterator",
-      ae = ac.asyncIterator || "@@asyncIterator",
-      af = ac.toStringTag || "@@toStringTag";
-    function ag(aD, aE, aF) {
-      var aI = {
-        value: aF,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-      };
-      Object.defineProperty(aD, aE, aI);
-      return aD[aE];
-    }
-    try {
-      ag({}, "");
-    } catch (aE) {
-      ag = function (aG, aH, aI) {
-        return aG[aH] = aI;
-      };
-    }
-    function ah(aG, aH, aI, aJ) {
-      var aK = aH && aH.prototype instanceof ao ? aH : ao,
-        aL = Object.create(aK.prototype),
-        aM = new aB(aJ || []);
-      ab(aL, "_invoke", {
-        value: ax(aG, aI, aM)
-      });
-      return aL;
-    }
-    function ai(aG, aH, aI) {
+高并发脚本，谨慎使用并发
+活动限制IP严重，建议使用代理
+
+随机定时
+
+*/
+
+const $ = new Env("\u8D85\u7EA7818");
+var iｉl = "jsjiami.com.v7";
+const l1iIl111 = iII1iiI;
+(function (ill1iI1i, l11li1Il, l11illli, IIlI1l1I, liii1ll, i1111iIl, I1i11i11) {
+  return ill1iI1i = ill1iI1i >> 9, i1111iIl = "hs", I1i11i11 = "hs", function (I111IIll, l11Il1l1, liilil1i, Ii1iI111, Iilll1) {
+    const lIlli1Il = iII1iiI;
+    Ii1iI111 = "tfi", i1111iIl = Ii1iI111 + i1111iIl, Iilll1 = "up", I1i11i11 += Iilll1, i1111iIl = liilil1i(i1111iIl), I1i11i11 = liilil1i(I1i11i11), liilil1i = 0;
+    const I1ll1l1l = I111IIll();
+    while (!![] && --IIlI1l1I + l11Il1l1) {
       try {
-        return {
-          type: "normal",
-          arg: aG.call(aH, aI)
-        };
-      } catch (aM) {
-        var aK = {
-          type: "throw",
-          arg: aM
-        };
-        return aK;
-      }
-    }
-    a8.wrap = ah;
-    var aj = "suspendedStart",
-      ak = "suspendedYield",
-      al = "executing",
-      am = "completed",
-      an = {};
-    function ao() {}
-    function ap() {}
-    function aq() {}
-    var ar = {};
-    ag(ar, ad, function () {
-      return this;
-    });
-    var as = Object.getPrototypeOf,
-      at = as && as(as(aC([])));
-    at && at !== a9 && aa.call(at, ad) && (ar = at);
-    aq.prototype = ao.prototype = Object.create(ar);
-    var au = aq.prototype;
-    function av(aG) {
-      ["next", "throw", "return"].forEach(function (aI) {
-        ag(aG, aI, function (aK) {
-          return this._invoke(aI, aK);
-        });
-      });
-    }
-    function aw(aG, aH) {
-      function aL(aM, aN, aO, aP) {
-        var aR = ai(aG[aM], aG, aN);
-        if ("throw" !== aR.type) {
-          var aS = aR.arg,
-            aT = aS.value;
-          return aT && "object" == b(aT) && aa.call(aT, "__await") ? aH.resolve(aT.__await).then(function (aV) {
-            aL("next", aV, aO, aP);
-          }, function (aV) {
-            aL("throw", aV, aO, aP);
-          }) : aH.resolve(aT).then(function (aV) {
-            aS.value = aV;
-            aO(aS);
-          }, function (aV) {
-            return aL("throw", aV, aO, aP);
-          });
-        }
-        aP(aR.arg);
-      }
-      var aJ;
-      ab(this, "_invoke", {
-        value: function (aM, aN) {
-          function aP() {
-            return new aH(function (aS, aT) {
-              aL(aM, aN, aS, aT);
-            });
-          }
-          return aJ = aJ ? aJ.then(aP, aP) : aP();
-        }
-      });
-    }
-    function ax(aG, aH, aI) {
-      var aK = aj;
-      return function (aL, aM) {
-        if (aK === al) {
-          throw Error("Generator is already running");
-        }
-        if (aK === am) {
-          if ("throw" === aL) {
-            throw aM;
-          }
-          var aO = {
-            value: a7,
-            done: !0
-          };
-          return aO;
-        }
-        for (aI.method = aL, aI.arg = aM;;) {
-          var aP = aI.delegate;
-          if (aP) {
-            var aQ = ay(aP, aI);
-            if (aQ) {
-              if (aQ === an) {
-                continue;
-              }
-              return aQ;
+        Ii1iI111 = -parseInt(lIlli1Il(358, "(i2(")) / 1 * (parseInt(lIlli1Il(719, "#ilO")) / 2) + parseInt(lIlli1Il(659, "l@O[")) / 3 + -parseInt(lIlli1Il(495, "2cM3")) / 4 * (-parseInt(lIlli1Il(697, "#ilO")) / 5) + -parseInt(lIlli1Il(478, "5&Be")) / 6 * (-parseInt(lIlli1Il(235, "zIZ7")) / 7) + parseInt(lIlli1Il(512, "wP(Z")) / 8 + parseInt(lIlli1Il(371, "2cM3")) / 9 + -parseInt(lIlli1Il(681, "[AqX")) / 10;
+      } catch (iIl1IiiI) {
+        Ii1iI111 = liilil1i;
+      } finally {
+        Iilll1 = I1ll1l1l[i1111iIl]();
+        if (ill1iI1i <= IIlI1l1I) liilil1i ? liii1ll ? Ii1iI111 = Iilll1 : liii1ll = Iilll1 : liilil1i = Iilll1;else {
+          if (liilil1i == liii1ll["replace"](/[XYhwFMVfTxGWPOCEIyrbu=]/g, "")) {
+            if (Ii1iI111 === l11Il1l1) {
+              I1ll1l1l["un" + i1111iIl](Iilll1);
+              break;
             }
+            I1ll1l1l[I1i11i11](Iilll1);
           }
-          if ("next" === aI.method) {
-            aI.sent = aI._sent = aI.arg;
-          } else {
-            if ("throw" === aI.method) {
-              if (aK === aj) {
-                throw aK = am, aI.arg;
-              }
-              aI.dispatchException(aI.arg);
-            } else {
-              "return" === aI.method && aI.abrupt("return", aI.arg);
-            }
-          }
-          aK = al;
-          var aR = ai(aG, aH, aI);
-          if ("normal" === aR.type) {
-            if (aK = aI.done ? am : ak, aR.arg === an) {
-              continue;
-            }
-            var aS = {};
-            aS.value = aR.arg;
-            aS.done = aI.done;
-            return aS;
-          }
-          "throw" === aR.type && (aK = am, aI.method = "throw", aI.arg = aR.arg);
-        }
-      };
-    }
-    function ay(aG, aH) {
-      var aL = aH.method,
-        aM = aG.iterator[aL];
-      if (aM === a7) {
-        aH.delegate = null;
-        "throw" === aL && aG.iterator.return && (aH.method = "return", aH.arg = a7, ay(aG, aH), "throw" === aH.method) || "return" !== aL && (aH.method = "throw", aH.arg = new TypeError("The iterator does not provide a '" + aL + "' method"));
-        return an;
-      }
-      var aN = ai(aM, aG.iterator, aH.arg);
-      if ("throw" === aN.type) {
-        aH.method = "throw";
-        aH.arg = aN.arg;
-        aH.delegate = null;
-        return an;
-      }
-      var aO = aN.arg;
-      return aO ? aO.done ? (aH[aG.resultName] = aO.value, aH.next = aG.nextLoc, "return" !== aH.method && (aH.method = "next", aH.arg = a7), aH.delegate = null, an) : aO : (aH.method = "throw", aH.arg = new TypeError("iterator result is not an object"), aH.delegate = null, an);
-    }
-    function az(aG) {
-      var aH = {
-        tryLoc: aG[0]
-      };
-      var aI = aH;
-      1 in aG && (aI.catchLoc = aG[1]);
-      2 in aG && (aI.finallyLoc = aG[2], aI.afterLoc = aG[3]);
-      this.tryEntries.push(aI);
-    }
-    function aA(aG) {
-      var aH = aG.completion || {};
-      aH.type = "normal";
-      delete aH.arg;
-      aG.completion = aH;
-    }
-    function aB(aG) {
-      var aH = {
-        tryLoc: "root"
-      };
-      this.tryEntries = [aH];
-      aG.forEach(az, this);
-      this.reset(!0);
-    }
-    function aC(aG) {
-      if (aG || "" === aG) {
-        var aI = aG[ad];
-        if (aI) {
-          return aI.call(aG);
-        }
-        if ("function" == typeof aG.next) {
-          return aG;
-        }
-        if (!isNaN(aG.length)) {
-          var aJ = -1,
-            aK = function aN() {
-              for (; ++aJ < aG.length;) {
-                if (aa.call(aG, aJ)) {
-                  aN.value = aG[aJ];
-                  aN.done = !1;
-                  return aN;
-                }
-              }
-              aN.value = a7;
-              aN.done = !0;
-              return aN;
-            };
-          return aK.next = aK;
         }
       }
-      throw new TypeError(b(aG) + " is not iterable");
     }
-    ap.prototype = aq;
-    ab(au, "constructor", {
-      value: aq,
-      configurable: !0
-    });
-    ab(aq, "constructor", {
-      value: ap,
-      configurable: !0
-    });
-    ap.displayName = ag(aq, af, "GeneratorFunction");
-    a8.isGeneratorFunction = function (aG) {
-      var aH = "function" == typeof aG && aG.constructor;
-      return !!aH && (aH === ap || "GeneratorFunction" === (aH.displayName || aH.name));
-    };
-    a8.mark = function (aG) {
-      Object.setPrototypeOf ? Object.setPrototypeOf(aG, aq) : (aG.__proto__ = aq, ag(aG, af, "GeneratorFunction"));
-      aG.prototype = Object.create(au);
-      return aG;
-    };
-    a8.awrap = function (aG) {
-      var aH = {
-        __await: aG
-      };
-      return aH;
-    };
-    av(aw.prototype);
-    ag(aw.prototype, ae, function () {
-      return this;
-    });
-    a8.AsyncIterator = aw;
-    a8.async = function (aG, aH, aI, aJ, aK) {
-      void 0 === aK && (aK = Promise);
-      var aM = new aw(ah(aG, aH, aI, aJ), aK);
-      return a8.isGeneratorFunction(aH) ? aM : aM.next().then(function (aO) {
-        return aO.done ? aO.value : aM.next();
-      });
-    };
-    av(au);
-    ag(au, af, "Generator");
-    ag(au, ad, function () {
-      return this;
-    });
-    ag(au, "toString", function () {
-      return "[object Generator]";
-    });
-    a8.keys = function (aG) {
-      var aH = Object(aG),
-        aI = [];
-      for (var aJ in aH) aI.push(aJ);
-      aI.reverse();
-      return function aL() {
-        for (; aI.length;) {
-          var aN = aI.pop();
-          if (aN in aH) {
-            aL.value = aN;
-            aL.done = !1;
-            return aL;
-          }
-        }
-        aL.done = !0;
-        return aL;
-      };
-    };
-    a8.values = aC;
-    aB.prototype = {
-      constructor: aB,
-      reset: function (aG) {
-        if (this.prev = 0, this.next = 0, this.sent = this._sent = a7, this.done = !1, this.delegate = null, this.method = "next", this.arg = a7, this.tryEntries.forEach(aA), !aG) {
-          for (var aH in this) "t" === aH.charAt(0) && aa.call(this, aH) && !isNaN(+aH.slice(1)) && (this[aH] = a7);
-        }
-      },
-      stop: function () {
-        this.done = !0;
-        var aG = this.tryEntries[0].completion;
-        if ("throw" === aG.type) {
-          throw aG.arg;
-        }
-        return this.rval;
-      },
-      dispatchException: function (aG) {
-        if (this.done) {
-          throw aG;
-        }
-        var aI = this;
-        function aP(aQ, aR) {
-          aL.type = "throw";
-          aL.arg = aG;
-          aI.next = aQ;
-          aR && (aI.method = "next", aI.arg = a7);
-          return !!aR;
-        }
-        for (var aJ = this.tryEntries.length - 1; aJ >= 0; --aJ) {
-          var aK = this.tryEntries[aJ],
-            aL = aK.completion;
-          if ("root" === aK.tryLoc) {
-            return aP("end");
-          }
-          if (aK.tryLoc <= this.prev) {
-            var aM = aa.call(aK, "catchLoc"),
-              aN = aa.call(aK, "finallyLoc");
-            if (aM && aN) {
-              if (this.prev < aK.catchLoc) {
-                return aP(aK.catchLoc, !0);
-              }
-              if (this.prev < aK.finallyLoc) {
-                return aP(aK.finallyLoc);
-              }
-            } else {
-              if (aM) {
-                if (this.prev < aK.catchLoc) {
-                  return aP(aK.catchLoc, !0);
-                }
-              } else {
-                if (!aN) {
-                  throw Error("try statement without catch or finally");
-                }
-                if (this.prev < aK.finallyLoc) {
-                  return aP(aK.finallyLoc);
-                }
-              }
-            }
-          }
-        }
-      },
-      abrupt: function (aG, aH) {
-        for (var aI = this.tryEntries.length - 1; aI >= 0; --aI) {
-          var aJ = this.tryEntries[aI];
-          if (aJ.tryLoc <= this.prev && aa.call(aJ, "finallyLoc") && this.prev < aJ.finallyLoc) {
-            var aK = aJ;
-            break;
-          }
-        }
-        aK && ("break" === aG || "continue" === aG) && aK.tryLoc <= aH && aH <= aK.finallyLoc && (aK = null);
-        var aL = aK ? aK.completion : {};
-        aL.type = aG;
-        aL.arg = aH;
-        return aK ? (this.method = "next", this.next = aK.finallyLoc, an) : this.complete(aL);
-      },
-      complete: function (aG, aH) {
-        if ("throw" === aG.type) {
-          throw aG.arg;
-        }
-        "break" === aG.type || "continue" === aG.type ? this.next = aG.arg : "return" === aG.type ? (this.rval = this.arg = aG.arg, this.method = "return", this.next = "end") : "normal" === aG.type && aH && (this.next = aH);
-        return an;
-      },
-      finish: function (aG) {
-        for (var aH = this.tryEntries.length - 1; aH >= 0; --aH) {
-          var aI = this.tryEntries[aH];
-          if (aI.finallyLoc === aG) {
-            this.complete(aI.completion, aI.afterLoc);
-            aA(aI);
-            return an;
-          }
-        }
-      },
-      catch: function (aG) {
-        for (var aH = this.tryEntries.length - 1; aH >= 0; --aH) {
-          var aI = this.tryEntries[aH];
-          if (aI.tryLoc === aG) {
-            var aJ = aI.completion;
-            if ("throw" === aJ.type) {
-              var aK = aJ.arg;
-              aA(aI);
-            }
-            return aK;
-          }
-        }
-        throw Error("illegal catch attempt");
-      },
-      delegateYield: function (aG, aH, aI) {
-        this.delegate = {
-          iterator: aC(aG),
-          resultName: aH,
-          nextLoc: aI
-        };
-        "next" === this.method && (this.arg = a7);
-        return an;
-      }
-    };
-    return a8;
-  }
-  function l(a6, a7, a8, a9, aa, ab, ac) {
-    try {
-      var af = a6[ab](ac),
-        ag = af.value;
-    } catch (ai) {
-      return void a8(ai);
-    }
-    af.done ? a7(ag) : Promise.resolve(ag).then(a9, aa);
-  }
-  function m(a6) {
-    return function () {
-      var a8 = this,
-        a9 = arguments;
-      return new Promise(function (aa, ab) {
-        var ad = a6.apply(a8, a9);
-        function ae(ag) {
-          l(ad, aa, ab, ae, af, "next", ag);
-        }
-        function af(ag) {
-          l(ad, aa, ab, ae, af, "throw", ag);
-        }
-        ae(void 0);
-      });
-    };
-  }
-  var n = ($.isNode() ? process.env.XiShiYan : $.getdata("XiShiYan")) || "",
-    o = ($.isNode() ? process.env.OCR_SERVER : $.getdata("OCR_SERVER")) || "https://ddddocr.xzxxn7.live",
-    p = void 0,
-    q = "",
-    r = "",
-    s = "",
-    t = "34",
-    u = "",
-    v = "50",
-    w = "",
-    x = "",
-    y = "",
-    z = "",
-    A = "",
-    B = "",
-    C = "uhzfzpj5l78yq6di",
-    D = "35c782a2",
-    E = "FR*r!isE5W";
-  function F() {
-    return G.apply(this, arguments);
-  }
-  function G() {
-    G = m(k().mark(function a9() {
-      var ab, ac, ad, af, ag, ah, ai, aj, ak, al, am, an, ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, aA, aB, aC, aD, aE, aF, aG, aH, aI, aJ, aK, aL, aM, aN, aO, aP, aQ, aR, aS, aT, aU, aV, aW, aX, aY, aZ, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba;
-      return k().wrap(function (bb) {
-        for (;;) {
-          switch (bb.prev = bb.next) {
-            case 0:
-              if (console.log("作者：@xzxxn777\n频道：https://t.me/xzxxn777\n群组：https://t.me/xzxxn7777\n自用机场推荐：https://xn--diqv0fut7b.com\n"), n) {
-                bb.next = 6;
-                break;
-              }
-              console.log("先去boxjs填写账号密码");
-              bb.next = 5;
-              return a4("先去boxjs填写账号密码");
-            case 5:
-              return bb.abrupt("return");
-            case 6:
-              bb.next = 8;
-              return a2();
-            case 8:
-              p = bb.sent;
-              ab = n.split(" ");
-              ac = c(ab);
-              bb.prev = 11;
-              ac.s();
-            case 13:
-              if ((ad = ac.n()).done) {
-                bb.next = 263;
-                break;
-              }
-              af = ad.value;
-              console.log("随机生成UA");
-              ag = a1();
-              y = ag.ua;
-              z = ag.commonUa;
-              A = ag.uuid;
-              console.log(y);
-              console.log(z);
-              w = af.split("&")[0];
-              x = af.split("&")[1];
-              console.log("用户：".concat(w, "开始任务"));
-              console.log("获取sessionId");
-              bb.next = 28;
-              return N("/api/account/init");
-            case 28:
-              ah = bb.sent;
-              s = ah.data.session.id;
-              console.log(s);
-              console.log("获取signature_key");
-              bb.next = 34;
-              return H("/web/init?client_id=".concat(v));
-            case 34:
-              ai = bb.sent;
-              q = ai.data.client.signature_key;
-              console.log(q);
-              console.log("获取code");
-              bb.next = 40;
-              return J("/web/oauth/credential_auth");
-            case 40:
-              if (aj = bb.sent, aj.data) {
-                bb.next = 44;
-                break;
-              }
-              console.log(aj.message);
-              return bb.abrupt("continue", 261);
-            case 44:
-              ak = aj.data.authorization_code.code;
-              console.log(ak);
-              console.log("登录");
-              bb.next = 49;
-              return N("/api/zbtxz/login", "check_token=&code=".concat(ak, "&token=&type=-1&union_id="));
-            case 49:
-              al = bb.sent;
-              console.log("登录成功");
-              u = al.data.session.account_id;
-              s = al.data.session.id;
-              console.log("————————————");
-              console.log("阅读抽奖");
-              console.log("获取id");
-              bb.next = 58;
-              return L("/api/article/channel_list?channel_id=5de768411b011b48a65b772f&isDiFangHao=false&is_new=true&list_count=0&size=30");
-            case 58:
-              am = bb.sent;
-              an = am.data.focus_list[0].channel_article_id;
-              console.log(an);
-              bb.next = 63;
-              return L("/api/article/detail?id=".concat(an));
-            case 63:
-              for (ao = bb.sent, url = ao.data.article.share_url, urlStr = url.split("?")[1], result = {}, paramsArr = urlStr.split("&"), ap = 0, aq = paramsArr.length; ap < aq; ap++) {
-                ar = paramsArr[ap].split("=");
-                result[ar[0]] = ar[1];
-              }
-              var bd = {};
-              bd.debug = 0;
-              bd.userId = "";
-              as = result.id;
-              console.log(as);
-              console.log("获取key和token");
-              bb.next = 74;
-              return P("/api/member/login", bd);
-            case 74:
-              at = bb.sent;
-              D = at.data.key;
-              B = "Bearer " + at.data.token;
-              console.log(D);
-              console.log(B);
-              console.log("获取抽奖id");
-              bb.next = 82;
-              return R("/api/study/detail?id=".concat(as), {
-                id: as
-              });
-            case 82:
-              au = bb.sent;
-              av = au.data.lottery.lottery_id;
-              console.log(av);
-              console.log("开始阅读");
-              aw = c(au.data.levels);
-              bb.prev = 87;
-              aw.s();
-            case 89:
-              if ((ax = aw.n()).done) {
-                bb.next = 119;
-                break;
-              }
-              ay = ax.value;
-              bb.next = 93;
-              return R("/api/study/level?id=".concat(ay.id), {
-                id: ay.id
-              });
-            case 93:
-              if (az = bb.sent, console.log(az.data.level.name), az.data.level.task_num != az.data.completedTasks.length) {
-                bb.next = 98;
-                break;
-              }
-              console.log("已完成");
-              return bb.abrupt("continue", 117);
-            case 98:
-              aA = c(az.data.tasks);
-              bb.prev = 99;
-              aA.s();
-            case 101:
-              if ((aB = aA.n()).done) {
-                bb.next = 109;
-                break;
-              }
-              aC = aB.value;
-              bb.next = 105;
-              return P("/api/study/task/complete", {
-                id: aC.id
-              });
-            case 105:
-              aD = bb.sent;
-              console.log(aD.message);
-            case 107:
-              bb.next = 101;
-              break;
-            case 109:
-              bb.next = 114;
-              break;
-            case 111:
-              bb.prev = 111;
-              bb.t0 = bb.catch(99);
-              aA.e(bb.t0);
-            case 114:
-              bb.prev = 114;
-              aA.f();
-              return bb.finish(114);
-            case 117:
-              bb.next = 89;
-              break;
-            case 119:
-              bb.next = 124;
-              break;
-            case 121:
-              bb.prev = 121;
-              bb.t1 = bb.catch(87);
-              aw.e(bb.t1);
-            case 124:
-              bb.prev = 124;
-              aw.f();
-              return bb.finish(124);
-            case 127:
-              bb.next = 129;
-              return P("/api/lotterybigwheel/_ac_lottery_count", {
-                id: av,
-                module: "study"
-              });
-            case 129:
-              aE = bb.sent;
-              aF = 0;
-            case 131:
-              if (!(aF < aE.data.count)) {
-                bb.next = 172;
-                break;
-              }
-              var be = {};
-              be.id = av;
-              be.app_id = C;
-              be.module = "study";
-              be.optionHash = "";
-              bb.next = 134;
-              return P("/api/lotterybigwheel/_ac_lottery", be);
-            case 134:
-              if (aG = bb.sent, 10000 != aG.code) {
-                bb.next = 168;
-                break;
-              }
-              console.log(aG.message);
-              bb.next = 139;
-              return P("/api/captcha/get", {
-                activity_id: av,
-                module: "bigWheel"
-              });
-            case 139:
-              aH = bb.sent;
-              aI = aH.data.jigsawImageUrl;
-              aJ = aH.data.originalImageUrl;
-              console.log("滑块：".concat(aI));
-              console.log("背景：".concat(aJ));
-              aK = aH.data.token;
-              aL = aH.data.secretKey;
-              console.log("秘钥：".concat(aL));
-              bb.next = 149;
-              return T({
-                slidingImage: aI,
-                backImage: aJ
-              });
-            case 149:
-              if (aM = bb.sent, aM) {
-                bb.next = 155;
-                break;
-              }
-              console.log("ddddocr服务异常");
-              bb.next = 154;
-              return a4("ddddocr服务异常");
-            case 154:
-              return bb.abrupt("continue", 169);
-            case 155:
-              console.log(aM);
-              aN = V(JSON.stringify({
-                x: aM.result,
-                y: 5
-              }), aL);
-              bb.next = 159;
-              return P("/api/captcha/check", {
-                activity_id: av,
-                module: "bigWheel",
-                cap_token: aK,
-                point: aN
-              });
-            case 159:
-              if (aO = bb.sent, console.log("验证滑块：" + aO.message), "操作成功" != aO.message) {
-                bb.next = 166;
-                break;
-              }
-              bb.next = 164;
-              return P("/api/lotterybigwheel/_ac_lottery", {
-                id: av,
-                app_id: C,
-                module: "study",
-                optionHash: ""
-              });
-            case 164:
-              aG = bb.sent;
-              console.log("抽奖获得：".concat(aG.data.title));
-            case 166:
-              bb.next = 169;
-              break;
-            case 168:
-              console.log("抽奖获得：".concat(aG.data.title));
-            case 169:
-              aF++;
-              bb.next = 131;
-              break;
-            case 172:
-              console.log("————————————");
-              console.log("开始签到");
-              bb.next = 176;
-              return L("/api/user_mumber/sign");
-            case 176:
-              aP = bb.sent;
-              console.log("签到获得：".concat(aP.data.signIntegral, "积分"));
-              console.log("————————————");
-              console.log("开始任务");
-              aQ = !0;
-              aR = !0;
-              aS = !0;
-              bb.next = 185;
-              return L("/api/user_center/task?type=1&current=1&size=20");
-            case 185:
-              aT = bb.sent;
-              aU = c(aT.data.list);
-              bb.prev = 187;
-              aU.s();
-            case 189:
-              if ((aV = aU.n()).done) {
-                bb.next = 211;
-                break;
-              }
-              if (aW = aV.value, console.log("任务：".concat(aW.name)), 1 != aW.completed) {
-                bb.next = 195;
-                break;
-              }
-              console.log("任务已完成");
-              return bb.abrupt("continue", 209);
-            case 195:
-              if (console.log("任务进度：".concat(aW.finish_times, "/").concat(aW.frequency)), "使用本地服务" != aW.name) {
-                bb.next = 206;
-                break;
-              }
-              aX = aW.finish_times;
-            case 198:
-              if (!(aX < aW.frequency)) {
-                bb.next = 206;
-                break;
-              }
-              bb.next = 201;
-              return N("/api/user_mumber/doTask", "memberType=6&member_type=6");
-            case 201:
-              aY = bb.sent;
-              console.log("任务完成获得：".concat(aY.data.score_notify.integral, "积分"));
-            case 203:
-              aX++;
-              bb.next = 198;
-              break;
-            case 206:
-              "新闻资讯阅读" == aW.name && (aQ = !1);
-              "新闻资讯点赞" == aW.name && (aR = !1);
-              "分享资讯给好友" == aW.name && (aS = !1);
-            case 209:
-              bb.next = 189;
-              break;
-            case 211:
-              bb.next = 216;
-              break;
-            case 213:
-              bb.prev = 213;
-              bb.t2 = bb.catch(187);
-              aU.e(bb.t2);
-            case 216:
-              bb.prev = 216;
-              aU.f();
-              return bb.finish(216);
-            case 219:
-              if (aQ && aR && aS) {
-                bb.next = 254;
-                break;
-              }
-              bb.next = 222;
-              return L("/api/article/channel_list?channel_id=5de768411b011b48a65b772f&isDiFangHao=false&is_new=true&list_count=0&size=30");
-            case 222:
-              aZ = bb.sent;
-              b0 = c(aZ.data.article_list);
-              bb.prev = 224;
-              b0.s();
-            case 226:
-              if ((b1 = b0.n()).done) {
-                bb.next = 246;
-                break;
-              }
-              if (b2 = b1.value, b3 = b2.id, aQ) {
-                bb.next = 234;
-                break;
-              }
-              bb.next = 232;
-              return L("/api/article/read_time?channel_article_id=".concat(b3, "&is_end=true&read_time=3051"));
-            case 232:
-              b4 = bb.sent;
-              b4.data.score_notify ? console.log("阅读获得：".concat(null === (b5 = b4.data) || void 0 === b5 || null === (b5 = b5.score_notify) || void 0 === b5 ? void 0 : b5.integral, "积分")) : console.log("文章已经阅读过了");
-            case 234:
-              if (aR) {
-                bb.next = 239;
-                break;
-              }
-              bb.next = 237;
-              return N("/api/favorite/like", "action=true&id=".concat(b3));
-            case 237:
-              b6 = bb.sent;
-              b6.data ? console.log("点赞获得：".concat(null === (b7 = b6.data) || void 0 === b7 || null === (b7 = b7.score_notify) || void 0 === b7 ? void 0 : b7.integral, "积分")) : console.log("文章已经点赞过了");
-            case 239:
-              if (aS) {
-                bb.next = 244;
-                break;
-              }
-              bb.next = 242;
-              return N("/api/user_mumber/doTask", "memberType=3&member_type=3&target_id==".concat(b3));
-            case 242:
-              b8 = bb.sent;
-              b8.data.score_notify ? console.log("分享获得：".concat(null === (b9 = b8.data) || void 0 === b9 || null === (b9 = b9.score_notify) || void 0 === b9 ? void 0 : b9.integral, "积分")) : console.log("文章已经分享过了");
-            case 244:
-              bb.next = 226;
-              break;
-            case 246:
-              bb.next = 251;
-              break;
-            case 248:
-              bb.prev = 248;
-              bb.t3 = bb.catch(224);
-              b0.e(bb.t3);
-            case 251:
-              bb.prev = 251;
-              b0.f();
-              return bb.finish(251);
-            case 254:
-              console.log("————————————");
-              console.log("查询积分");
-              bb.next = 258;
-              return L("/api/user_mumber/account_detail");
-            case 258:
-              ba = bb.sent;
-              console.log("拥有积分：".concat(ba.data.rst.total_integral, "\n"));
-              r += "用户：".concat(w, " 积分：").concat(ba.data.rst.total_integral, "\n");
-            case 261:
-              bb.next = 13;
-              break;
-            case 263:
-              bb.next = 268;
-              break;
-            case 265:
-              bb.prev = 265;
-              bb.t4 = bb.catch(11);
-              ac.e(bb.t4);
-            case 268:
-              bb.prev = 268;
-              ac.f();
-              return bb.finish(268);
-            case 271:
-              if (!r) {
-                bb.next = 274;
-                break;
-              }
-              bb.next = 274;
-              return a4(r);
-            case 274:
-            case "end":
-              return bb.stop();
-          }
-        }
-      }, a9, null, [[11, 265, 268, 271], [87, 121, 124, 127], [99, 111, 114, 117], [187, 213, 216, 219], [224, 248, 251, 254]]);
-    }));
-    return G.apply(this, arguments);
-  }
-  function H(a6) {
-    return I.apply(this, arguments);
-  }
-  function I() {
-    I = m(k().mark(function a7(a8) {
-      return k().wrap(function (a9) {
-        for (;;) {
-          switch (a9.prev = a9.next) {
-            case 0:
-              return a9.abrupt("return", new Promise(function (ab) {
-                var ad = {
-                  url: "https://passport.tmuyun.com".concat(a8),
-                  headers: {
-                    Connection: "Keep-Alive",
-                    "Cache-Control": "no-cache",
-                    "X-REQUEST-ID": Z(),
-                    "Accept-Encoding": "gzip",
-                    "user-agent": y
-                  }
-                };
-                $.get(ad, function () {
-                  var ae = m(k().mark(function af(ag, ah, ai) {
-                    return k().wrap(function (ak) {
-                      for (;;) {
-                        switch (ak.prev = ak.next) {
-                          case 0:
-                            try {
-                              ag ? (console.log("".concat(JSON.stringify(ag))), console.log("".concat($.name, " API请求失败，请检查网路重试"))) : ab(JSON.parse(ai));
-                            } catch (an) {
-                              $.logErr(an, ah);
-                            } finally {
-                              ab();
-                            }
-                          case 1:
-                          case "end":
-                            return ak.stop();
-                        }
-                      }
-                    }, af);
-                  }));
-                  return function (ag, ah, ai) {
-                    return ae.apply(this, arguments);
-                  };
-                }());
-              }));
-            case 1:
-            case "end":
-              return a9.stop();
-          }
-        }
-      }, a7);
-    }));
-    return I.apply(this, arguments);
-  }
-  function J(a6) {
-    return K.apply(this, arguments);
-  }
-  function K() {
-    K = m(k().mark(function a7(a8) {
-      var a9;
-      return k().wrap(function (aa) {
-        for (;;) {
-          switch (aa.prev = aa.next) {
-            case 0:
-              a9 = W();
-              return aa.abrupt("return", new Promise(function (ac) {
-                var ad = {
-                  Connection: "Keep-Alive",
-                  "X-REQUEST-ID": a9.uuid,
-                  "X-SIGNATURE": a9.signature,
-                  "Cache-Control": "no-cache",
-                  "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-                  "Accept-Encoding": "gzip",
-                  "user-agent": y
-                };
-                var ae = {
-                  url: "https://passport.tmuyun.com".concat(a8),
-                  headers: ad,
-                  body: a9.body
-                };
-                $.post(ae, function () {
-                  var ag = m(k().mark(function ah(ai, aj, ak) {
-                    return k().wrap(function (am) {
-                      for (;;) {
-                        switch (am.prev = am.next) {
-                          case 0:
-                            try {
-                              ai ? (console.log("".concat(JSON.stringify(ai))), console.log("".concat($.name, " API请求失败，请检查网路重试"))) : ac(JSON.parse(ak));
-                            } catch (an) {
-                              $.logErr(an, aj);
-                            } finally {
-                              ac();
-                            }
-                          case 1:
-                          case "end":
-                            return am.stop();
-                        }
-                      }
-                    }, ah);
-                  }));
-                  return function (ai, aj, ak) {
-                    return ag.apply(this, arguments);
-                  };
-                }());
-              }));
-            case 2:
-            case "end":
-              return aa.stop();
-          }
-        }
-      }, a7);
-    }));
-    return K.apply(this, arguments);
-  }
-  function L(a6) {
-    return M.apply(this, arguments);
-  }
-  function M() {
-    M = m(k().mark(function a7(a8) {
-      var a9;
-      return k().wrap(function (aa) {
-        for (;;) {
-          switch (aa.prev = aa.next) {
-            case 0:
-              a9 = Y(a8);
-              return aa.abrupt("return", new Promise(function (ac) {
-                var ae = {
-                  url: "https://vapp.tmuyun.com".concat(a8),
-                  headers: {
-                    Connection: "Keep-Alive",
-                    "X-TIMESTAMP": a9.time,
-                    "X-SESSION-ID": s,
-                    "X-REQUEST-ID": a9.uuid,
-                    "X-SIGNATURE": a9.signature,
-                    "X-TENANT-ID": t,
-                    "X-ACCOUNT-ID": u,
-                    "Cache-Control": "no-cache",
-                    "Accept-Encoding": "gzip",
-                    "user-agent": z
-                  }
-                };
-                $.get(ae, function () {
-                  var ag = m(k().mark(function ah(ai, aj, ak) {
-                    return k().wrap(function (al) {
-                      for (;;) {
-                        switch (al.prev = al.next) {
-                          case 0:
-                            if (al.prev = 0, !ai) {
-                              al.next = 6;
-                              break;
-                            }
-                            console.log("".concat(JSON.stringify(ai)));
-                            console.log("".concat($.name, " API请求失败，请检查网路重试"));
-                            al.next = 9;
-                            break;
-                          case 6:
-                            al.next = 8;
-                            return $.wait(2000);
-                          case 8:
-                            ac(JSON.parse(ak));
-                          case 9:
-                            al.next = 14;
-                            break;
-                          case 11:
-                            al.prev = 11;
-                            al.t0 = al.catch(0);
-                            $.logErr(al.t0, aj);
-                          case 14:
-                            al.prev = 14;
-                            ac();
-                            return al.finish(14);
-                          case 17:
-                          case "end":
-                            return al.stop();
-                        }
-                      }
-                    }, ah, null, [[0, 11, 14, 17]]);
-                  }));
-                  return function (ai, aj, ak) {
-                    return ag.apply(this, arguments);
-                  };
-                }());
-              }));
-            case 2:
-            case "end":
-              return aa.stop();
-          }
-        }
-      }, a7);
-    }));
-    return M.apply(this, arguments);
-  }
-  function N(a6, a7) {
-    return O.apply(this, arguments);
-  }
-  function O() {
-    O = m(k().mark(function a7(a8, a9) {
-      var ab;
-      return k().wrap(function (ac) {
-        for (;;) {
-          switch (ac.prev = ac.next) {
-            case 0:
-              ab = Y(a8);
-              return ac.abrupt("return", new Promise(function (ae) {
-                var ag = {
-                  url: "https://vapp.tmuyun.com".concat(a8),
-                  headers: {
-                    Connection: "Keep-Alive",
-                    "X-TIMESTAMP": ab.time,
-                    "X-SESSION-ID": s,
-                    "X-REQUEST-ID": ab.uuid,
-                    "X-SIGNATURE": ab.signature,
-                    "X-TENANT-ID": t,
-                    "X-ACCOUNT-ID": u,
-                    "Cache-Control": "no-cache",
-                    "Accept-Encoding": "gzip",
-                    "user-agent": z
-                  },
-                  body: a9
-                };
-                $.post(ag, function () {
-                  var ah = m(k().mark(function ai(aj, ak, al) {
-                    return k().wrap(function (an) {
-                      for (;;) {
-                        switch (an.prev = an.next) {
-                          case 0:
-                            if (an.prev = 0, !aj) {
-                              an.next = 6;
-                              break;
-                            }
-                            console.log("".concat(JSON.stringify(aj)));
-                            console.log("".concat($.name, " API请求失败，请检查网路重试"));
-                            an.next = 9;
-                            break;
-                          case 6:
-                            an.next = 8;
-                            return $.wait(2000);
-                          case 8:
-                            ae(JSON.parse(al));
-                          case 9:
-                            an.next = 14;
-                            break;
-                          case 11:
-                            an.prev = 11;
-                            an.t0 = an.catch(0);
-                            $.logErr(an.t0, ak);
-                          case 14:
-                            an.prev = 14;
-                            ae();
-                            return an.finish(14);
-                          case 17:
-                          case "end":
-                            return an.stop();
-                        }
-                      }
-                    }, ai, null, [[0, 11, 14, 17]]);
-                  }));
-                  return function (aj, ak, al) {
-                    return ah.apply(this, arguments);
-                  };
-                }());
-              }));
-            case 2:
-            case "end":
-              return ac.stop();
-          }
-        }
-      }, a7);
-    }));
-    return O.apply(this, arguments);
-  }
-  function P(a6, a7) {
-    return Q.apply(this, arguments);
-  }
-  function Q() {
-    Q = m(k().mark(function a6(a7, a8) {
-      var aa;
-      return k().wrap(function (ab) {
-        for (;;) {
-          switch (ab.prev = ab.next) {
-            case 0:
-              aa = X(a8);
-              return ab.abrupt("return", new Promise(function (ad) {
-                var af = {
-                  url: "https://op-api.cloud.jinhua.com.cn".concat(a7),
-                  headers: {
-                    "access-type": "app",
-                    "access-module": "study",
-                    "access-device-id": A,
-                    "access-auth-id": u,
-                    "access-api-signature": aa.signature,
-                    "access-nonce-str": aa.uuid,
-                    authorization: B,
-                    "access-app-id": C,
-                    "access-timestamp": aa.time,
-                    "access-api-token": s,
-                    accept: "application/json, text/plain, */*",
-                    "user-agent": "Mozilla/5.0 (Linux; Android 11; 21091116AC Build/RP1A.200720.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/94.0.4606.85 Mobile Safari/537.36;xsb_zhuji;xsb_zhuji;1.3.2;native_app;6.10.0",
-                    "content-type": "application/json; charset=UTF-8",
-                    origin: "https://op-h5.cloud.jinhua.com.cn",
-                    "x-requested-with": "com.zjonline.zhuji",
-                    "sec-fetch-site": "same-site",
-                    "sec-fetch-mode": "cors",
-                    "sec-fetch-dest": "empty",
-                    referer: "https://op-h5.cloud.jinhua.com.cn/",
-                    "accept-encoding": "gzip, deflate",
-                    "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"
-                  },
-                  body: JSON.stringify(a8)
-                };
-                $.post(af, function () {
-                  var ah = m(k().mark(function ai(aj, ak, al) {
-                    return k().wrap(function (am) {
-                      for (;;) {
-                        switch (am.prev = am.next) {
-                          case 0:
-                            if (am.prev = 0, !aj) {
-                              am.next = 6;
-                              break;
-                            }
-                            console.log("".concat(JSON.stringify(aj)));
-                            console.log("".concat($.name, " API请求失败，请检查网路重试"));
-                            am.next = 9;
-                            break;
-                          case 6:
-                            am.next = 8;
-                            return $.wait(2000);
-                          case 8:
-                            ad(JSON.parse(al));
-                          case 9:
-                            am.next = 14;
-                            break;
-                          case 11:
-                            am.prev = 11;
-                            am.t0 = am.catch(0);
-                            $.logErr(am.t0, ak);
-                          case 14:
-                            am.prev = 14;
-                            ad();
-                            return am.finish(14);
-                          case 17:
-                          case "end":
-                            return am.stop();
-                        }
-                      }
-                    }, ai, null, [[0, 11, 14, 17]]);
-                  }));
-                  return function (aj, ak, al) {
-                    return ah.apply(this, arguments);
-                  };
-                }());
-              }));
-            case 2:
-            case "end":
-              return ab.stop();
-          }
-        }
-      }, a6);
-    }));
-    return Q.apply(this, arguments);
-  }
-  function R(a6, a7) {
-    return S.apply(this, arguments);
-  }
-  function S() {
-    S = m(k().mark(function a7(a8, a9) {
-      var ab;
-      return k().wrap(function (ac) {
-        for (;;) {
-          switch (ac.prev = ac.next) {
-            case 0:
-              ab = X(a9);
-              return ac.abrupt("return", new Promise(function (ae) {
-                var ag = {
-                  url: "https://op-api.cloud.jinhua.com.cn".concat(a8),
-                  headers: {
-                    "access-type": "app",
-                    "access-module": "study",
-                    "access-device-id": A,
-                    "access-auth-id": u,
-                    "access-api-signature": ab.signature,
-                    "access-nonce-str": ab.uuid,
-                    authorization: B,
-                    "access-app-id": C,
-                    "access-timestamp": ab.time,
-                    "access-api-token": s,
-                    accept: "application/json, text/plain, */*",
-                    "user-agent": "Mozilla/5.0 (Linux; Android 11; 21091116AC Build/RP1A.200720.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/94.0.4606.85 Mobile Safari/537.36;xsb_zhuji;xsb_zhuji;1.3.2;native_app;6.10.0",
-                    origin: "https://op-h5.cloud.jinhua.com.cn",
-                    "x-requested-with": "com.zjonline.zhuji",
-                    "sec-fetch-site": "same-site",
-                    "sec-fetch-mode": "cors",
-                    "sec-fetch-dest": "empty",
-                    referer: "https://op-h5.cloud.jinhua.com.cn/",
-                    "accept-encoding": "gzip, deflate",
-                    "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"
-                  }
-                };
-                $.get(ag, function () {
-                  var ai = m(k().mark(function aj(ak, al, am) {
-                    return k().wrap(function (an) {
-                      for (;;) {
-                        switch (an.prev = an.next) {
-                          case 0:
-                            if (an.prev = 0, !ak) {
-                              an.next = 6;
-                              break;
-                            }
-                            console.log("".concat(JSON.stringify(ak)));
-                            console.log("".concat($.name, " API请求失败，请检查网路重试"));
-                            an.next = 9;
-                            break;
-                          case 6:
-                            an.next = 8;
-                            return $.wait(2000);
-                          case 8:
-                            ae(JSON.parse(am));
-                          case 9:
-                            an.next = 14;
-                            break;
-                          case 11:
-                            an.prev = 11;
-                            an.t0 = an.catch(0);
-                            $.logErr(an.t0, al);
-                          case 14:
-                            an.prev = 14;
-                            ae();
-                            return an.finish(14);
-                          case 17:
-                          case "end":
-                            return an.stop();
-                        }
-                      }
-                    }, aj, null, [[0, 11, 14, 17]]);
-                  }));
-                  return function (ak, al, am) {
-                    return ai.apply(this, arguments);
-                  };
-                }());
-              }));
-            case 2:
-            case "end":
-              return ac.stop();
-          }
-        }
-      }, a7);
-    }));
-    return S.apply(this, arguments);
-  }
-  function T(a6) {
-    return U.apply(this, arguments);
-  }
-  function U() {
-    U = m(k().mark(function a7(a8) {
-      return k().wrap(function (a9) {
-        for (;;) {
-          switch (a9.prev = a9.next) {
-            case 0:
-              return a9.abrupt("return", new Promise(function (ab) {
-                var ac = {
-                  url: "".concat(o, "/capcode"),
-                  headers: {
-                    "Content-Type": "application/json"
-                  },
-                  body: JSON.stringify(a8)
-                };
-                $.post(ac, function (ad, ae, af) {
-                  try {
-                    ad ? (console.log("".concat(JSON.stringify(ad))), console.log("".concat($.name, " API请求失败，请检查网路重试"))) : ab(JSON.parse(af));
-                  } catch (ag) {
-                    $.logErr(ag, ae);
-                  } finally {
-                    ab();
-                  }
-                });
-              }));
-            case 1:
-            case "end":
-              return a9.stop();
-          }
-        }
-      }, a7);
-    }));
-    return U.apply(this, arguments);
-  }
-  function V(a6, a7) {
-    CryptoJS = p.createCryptoJS();
-    var a8 = CryptoJS.enc.Utf8.parse(a7),
-      a9 = CryptoJS.enc.Utf8.parse(a6),
-      aa = CryptoJS.AES.encrypt(a9, a8, {
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7
-      });
-    return aa.toString();
-  }
-  function W() {
-    var ab = new (p.loadJSEncrypt())();
-    ab.setPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD6XO7e9YeAOs+cFqwa7ETJ+WXizPqQeXv68i5vqw9pFREsrqiBTRcg7wB0RIp3rJkDpaeVJLsZqYm5TW7FWx/iOiXFc+zCPvaKZric2dXCw27EvlH5rq+zwIPDAJHGAfnn1nmQH7wR3PCatEIb8pz5GFlTHMlluw4ZYmnOwg+thwIDAQAB");
-    x = ab.encrypt(x);
-    var a8 = Z(),
-      a9 = "client_id=".concat(v, "&password=").concat(x, "&phone_number=").concat(w),
-      aa = "post%%/web/oauth/credential_auth?".concat(a9, "%%").concat(a8, "%%");
-    a9 = "client_id=".concat(v, "&password=").concat(encodeURIComponent(x), "&phone_number=").concat(w);
-    CryptoJS = p.createCryptoJS();
-    var ad = CryptoJS.HmacSHA256(aa, q),
-      ae = CryptoJS.enc.Hex.stringify(ad);
-    var ac = {};
-    ac.uuid = a8;
-    ac.signature = ae;
-    ac.body = a9;
-    return ac;
-  }
-  function X(a6) {
-    var ae = Z(),
-      af = Date.now(),
-      ag = {
-        app_id: C,
-        device_id: A,
-        nonce_str: ae,
-        source_type: "app",
-        timestamp: af,
-        auth_id: u,
-        token: s
-      };
-    Object.entries(a6).forEach(function (ah) {
-      var ai = d(ah, 2),
-        aj = ai[0],
-        ak = ai[1];
-      ag[aj] = ak;
-    });
-    var a9 = Object.keys(ag).sort(),
-      aa = a9.map(function (ah) {
-        return "".concat(ah, "=").concat(ag[ah]);
-      }).join("&&");
-    aa = aa + "&&" + D;
-    CryptoJS = p.createCryptoJS();
-    var ab = CryptoJS.SHA256(aa).toString();
-    var ad = {};
-    ad.uuid = ae;
-    ad.time = af;
-    ad.signature = ab;
-    return ad;
-  }
-  function Y(a6) {
-    var a7 = Z(),
-      a8 = Date.now();
-    a6.indexOf("?") > 0 && (a6 = a6.substring(0, a6.indexOf("?")));
-    CryptoJS = p.createCryptoJS();
-    var a9 = CryptoJS.SHA256("".concat(a6, "&&").concat(s, "&&").concat(a7, "&&").concat(a8, "&&").concat(E, "&&").concat(t)).toString(),
-      aa = {
-        uuid: a7,
-        time: a8,
-        signature: a9
-      };
-    return aa;
-  }
-  function Z() {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (a6) {
-      var a7 = 16 * Math.random() | 0,
-        a8 = "x" === a6 ? a7 : 3 & a7 | 8;
-      return a8.toString(16);
-    });
-  }
-  function a0(a6) {
-    return a6[Math.floor(Math.random() * a6.length)];
-  }
-  function a1() {
-    var a6 = "1.3.2",
-      a7 = Z(),
-      a8 = a0(["M1903F2A", "M2001J2E", "M2001J2C", "M2001J1E", "M2001J1C", "M2002J9E", "M2011K2C", "M2102K1C", "M2101K9C", "2107119DC", "2201123C", "2112123AC", "2201122C", "2211133C", "2210132C", "2304FPN6DC", "23127PN0CC", "24031PN0DC", "23090RA98C", "2312DRA50C", "2312CRAD3C", "2312DRAABC", "22101316UCP", "22101316C"]),
-      a9 = "Xiaomi " + a8,
-      aa = "Android",
-      ab = "".concat(aa.toUpperCase(), ";").concat("11", ";").concat(v, ";").concat(a6, ";1.0;null;").concat(a8),
-      ac = "".concat(a6, ";").concat(a7, ";").concat(a9, ";").concat(aa, ";").concat("11", ";").concat("Release", ";").concat("6.10.0"),
-      ad = {
-        ua: ab,
-        commonUa: ac,
-        uuid: a7
-      };
-    return ad;
-  }
-  function a2() {
-    return a3.apply(this, arguments);
-  }
-  function a3() {
-    a3 = m(k().mark(function a7() {
-      var a9;
-      return k().wrap(function aa(ab) {
-        for (;;) {
-          switch (ab.prev = ab.next) {
-            case 0:
-              if (a9 = $.getdata("Utils_Code") || "", !a9 || !Object.keys(a9).length) {
-                ab.next = 5;
-                break;
-              }
-              console.log("✅ ".concat($.name, ": 缓存中存在Utils代码, 跳过下载"));
-              eval(a9);
-              return ab.abrupt("return", creatUtils());
-            case 5:
-              console.log("🚀 ".concat($.name, ": 开始下载Utils代码"));
-              return ab.abrupt("return", new Promise(function () {
-                var ad = m(k().mark(function ae(af) {
-                  return k().wrap(function ah(ai) {
-                    for (;;) {
-                      switch (ai.prev = ai.next) {
-                        case 0:
-                          $.getScript("https://mirror.ghproxy.com/https://raw.githubusercontent.com/xzxxn777/Surge/main/Utils/Utils.js").then(function (ak) {
-                            $.setdata(ak, "Utils_Code");
-                            eval(ak);
-                            console.log("✅ Utils加载成功, 请继续");
-                            af(creatUtils());
-                          });
-                        case 1:
-                        case "end":
-                          return ai.stop();
-                      }
-                    }
-                  }, ae);
-                }));
-                return function (af) {
-                  return ad.apply(this, arguments);
-                };
-              }()));
-            case 7:
-            case "end":
-              return ab.stop();
-          }
-        }
-      }, a7);
-    }));
-    return a3.apply(this, arguments);
-  }
-  function a4(a6) {
-    return a5.apply(this, arguments);
-  }
-  function a5() {
-    a5 = m(k().mark(function a8(a9) {
-      return k().wrap(function (aa) {
-        for (;;) {
-          switch (aa.prev = aa.next) {
-            case 0:
-              if (!$.isNode()) {
-                aa.next = 5;
-                break;
-              }
-              aa.next = 3;
-              return notify.sendNotify($.name, a9);
-            case 3:
-              aa.next = 6;
-              break;
-            case 5:
-              $.msg($.name, "", a9);
-            case 6:
-            case "end":
-              return aa.stop();
-          }
-        }
-      }, a8);
-    }));
-    return a5.apply(this, arguments);
-  }
-  m(k().mark(function a6() {
-    return k().wrap(function (a9) {
-      for (;;) {
-        switch (a9.prev = a9.next) {
-          case 0:
-            a9.next = 2;
-            return F();
-          case 2:
-          case "end":
-            return a9.stop();
-        }
-      }
-    }, a6);
-  }))().catch(function (a7) {
-    $.log(a7);
-  }).finally(function () {
-    $.done({});
+  }(l11illli, l11li1Il, function (lIi1iiil, iliIIil1, I1iiI1ll, ilIi1l1I, IlIil11l, iiil1lI, lIlli1I1) {
+    return iliIIil1 = "split", lIi1iiil = arguments[0], lIi1iiil = lIi1iiil[iliIIil1](""), I1iiI1ll = "reverse", lIi1iiil = lIi1iiil[I1iiI1ll]("v"), ilIi1l1I = "join", (1567439, lIi1iiil[ilIi1l1I](""));
   });
-})();
+}(100864, 955265, Il1Ili1I, 199), Il1Ili1I) && (iｉl = 9194);
+const jdCookie = require(l1iIl111(724, "yVhj")),
+  common = require(l1iIl111(535, "POES")),
+  notify = require("./utils/Rebels_sendJDNotify"),
+  {
+    H5st,
+    jsTk
+  } = require("./utils/Rebels_H");
+let red618_url = process["env"][l1iIl111(509, "POES")] || "",
+  redshareId = (process["env"][l1iIl111(664, "5&Be")] || "")["split"](/[,@\n]+/g)[l1iIl111(728, "1#OP")](liIiiiII => liIiiiII[l1iIl111(261, "syjB")]())[l1iIl111(415, "5&Be")](Boolean),
+  maxdraw = process[l1iIl111(610, "Si%b")][l1iIl111(566, "dOzb")] || "1",
+  taskThreads = process[l1iIl111(426, "bcV[")][l1iIl111(255, "l#Y%")] || "1";
+const runInterval = process[l1iIl111(363, "R]Vr")][l1iIl111(550, "POES")] || l1iIl111(589, "uLOZ"),
+  isNotify = (process[l1iIl111(626, "syjB")]["jd_818_notify"] || process["env"][l1iIl111(629, "dOzb")]) === l1iIl111(547, "r4dy"),
+  pinFilter = (process[l1iIl111(609, "a!!@")]["jd_818_pinFilter"] || "")[l1iIl111(330, "yVhj")]("@"),
+  endTime = 1723996799000,
+  maxThreads = 5;
+let unionActId = l1iIl111(749, "Q)[D"),
+  actId,
+  Referer,
+  cookiesArr = Object[l1iIl111(419, "Mn3#")](jdCookie)["map"](i1I1i1il => jdCookie[i1I1i1il])["filter"](IiiIi1iI => IiiIi1iI);
+!cookiesArr[0] && ($[l1iIl111(716, "[O4@")]($["name"], l1iIl111(713, "syjB")), process[l1iIl111(283, "(i2(")](1));
+const prize_map = {
+  1: l1iIl111(685, "RTlN"),
+  3: l1iIl111(545, "IB(Z"),
+  6: "[\u6253\u6298\u5238]",
+  17: l1iIl111(576, "Si%b"),
+  18: l1iIl111(674, "dOzb"),
+  19: "[\u8D85\u5E02\u5361]"
+};
+function iII1iiI(_0x2b13e6, _0x216c2a) {
+  const _0x2d2cd5 = Il1Ili1I();
+  return iII1iiI = function (_0x580b1d, _0x5ad6ab) {
+    _0x580b1d = _0x580b1d - 229;
+    let _0x2292e0 = _0x2d2cd5[_0x580b1d];
+    if (iII1iiI["kSaZim"] === undefined) {
+      var _0x3076ac = function (_0x4f4999) {
+        const _0x174163 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=";
+        let _0xfff208 = "",
+          _0x15c334 = "";
+        for (let _0x3c21e1 = 0, _0x4b770b, _0x47dc8a, _0x3c2d4a = 0; _0x47dc8a = _0x4f4999["charAt"](_0x3c2d4a++); ~_0x47dc8a && (_0x4b770b = _0x3c21e1 % 4 ? _0x4b770b * 64 + _0x47dc8a : _0x47dc8a, _0x3c21e1++ % 4) ? _0xfff208 += String["fromCharCode"](255 & _0x4b770b >> (-2 * _0x3c21e1 & 6)) : 0) {
+          _0x47dc8a = _0x174163["indexOf"](_0x47dc8a);
+        }
+        for (let _0x2d76eb = 0, _0x458fd9 = _0xfff208["length"]; _0x2d76eb < _0x458fd9; _0x2d76eb++) {
+          _0x15c334 += "%" + ("00" + _0xfff208["charCodeAt"](_0x2d76eb)["toString"](16))["slice"](-2);
+        }
+        return decodeURIComponent(_0x15c334);
+      };
+      const _0x11e784 = function (_0x405f72, _0x1a7a3f) {
+        let _0x39db92 = [],
+          _0xc4c88 = 0,
+          _0x4b3cec,
+          _0x1d2123 = "";
+        _0x405f72 = _0x3076ac(_0x405f72);
+        let _0x3f57be;
+        for (_0x3f57be = 0; _0x3f57be < 256; _0x3f57be++) {
+          _0x39db92[_0x3f57be] = _0x3f57be;
+        }
+        for (_0x3f57be = 0; _0x3f57be < 256; _0x3f57be++) {
+          _0xc4c88 = (_0xc4c88 + _0x39db92[_0x3f57be] + _0x1a7a3f["charCodeAt"](_0x3f57be % _0x1a7a3f["length"])) % 256, _0x4b3cec = _0x39db92[_0x3f57be], _0x39db92[_0x3f57be] = _0x39db92[_0xc4c88], _0x39db92[_0xc4c88] = _0x4b3cec;
+        }
+        _0x3f57be = 0, _0xc4c88 = 0;
+        for (let _0x52c435 = 0; _0x52c435 < _0x405f72["length"]; _0x52c435++) {
+          _0x3f57be = (_0x3f57be + 1) % 256, _0xc4c88 = (_0xc4c88 + _0x39db92[_0x3f57be]) % 256, _0x4b3cec = _0x39db92[_0x3f57be], _0x39db92[_0x3f57be] = _0x39db92[_0xc4c88], _0x39db92[_0xc4c88] = _0x4b3cec, _0x1d2123 += String["fromCharCode"](_0x405f72["charCodeAt"](_0x52c435) ^ _0x39db92[(_0x39db92[_0x3f57be] + _0x39db92[_0xc4c88]) % 256]);
+        }
+        return _0x1d2123;
+      };
+      iII1iiI["pHChCG"] = _0x11e784, _0x2b13e6 = arguments, iII1iiI["kSaZim"] = !![];
+    }
+    const _0x3274a6 = _0x2d2cd5[0],
+      _0x14ee18 = _0x580b1d + _0x3274a6,
+      _0x52c8a8 = _0x2b13e6[_0x14ee18];
+    return !_0x52c8a8 ? (iII1iiI["zsAaRR"] === undefined && (iII1iiI["zsAaRR"] = !![]), _0x2292e0 = iII1iiI["pHChCG"](_0x2292e0, _0x5ad6ab), _0x2b13e6[_0x14ee18] = _0x2292e0) : _0x2292e0 = _0x52c8a8, _0x2292e0;
+  }, iII1iiI(_0x2b13e6, _0x216c2a);
+}
+function Il1Ili1I() {
+  const ilIliiIl = function () {
+    return [iｉl, "fGCYjsWjYiTaXwmhXViXEO.uVMcFboIyxmPF.rv7==", "WQFdQgTA", "pSkjFG", "n8k3CmkpW4S", "W5DVyra9", "qmkBWQddUCkP", "W6xcUKtdMK0", "xSkrWQBcH8o3W5BdSSkYW7FdSG", "z1FcU8ouW4ldPmopia", "yrzpWPnqamo+dghdRSkQWQ5sg3hdJsG", "wrbGdLxcKXzAgSkOW5pcQmke", "WQ3cKJVcU1nB", "WO7cUKXzsmkw", "zSoAWOq", "W57dGuW", "guddKx7cNG", "WRJcNM8UuW", "W4lcI0RcULBdJG", "i8kcWPXMrG", "5l+i5Ak55yEG55QU6zoc5OYo5lQ1776c", "oCkIWQ1xEa", "eSoKbSoqW7C", "5BsT6k2H57646lE86l+U6l+66kkq5BYf5yQY6lAZ5y+8", "WOJdLmoM", "W7/ORkJMSPtLK4lLUR0k", "W4BcTXXoBSooW6ldTXKfke3cRmkaW5OaW6FdVmkMWO3dRq", "W6yAp8oO", "W4tcSgFdIxu", "WPHoWOBdNSoFp8kfWOtdOG3dUSk7WQJdKa", "aKybtWa", "WRBcSCkYALfLWRO", "8y6iMSk4", "Cb1qW69eWOa", "gSoAWOZdI8kVWOldNSoOW5FdU8k5WRNdGtGzW7W3WOpdSgRdUqDa", "WOlcHSk5wZBcJSkcW6hcKmktW4C", "W6GuiSoN", "W4GEWQK", "W7mTW6HTW61iW6K", "c0BdNxRcKX8", "W6XzuSk5wSkhEmkvrSk3W40VW7hdHvZdQGddS2pcPKb4WOi1", "BbDo", "WQ4cfqhdTG", "aLaHFW3dGeu", "r+s9OoAdNUwkSg0", "WPvbuYKPrbeDWPHL", "W5PErc0", "y1qLuCk/", "ox3dL8kbeq", "xSkrWQBcH8o3W5BdSSkUW6VdQSk+WQ7dMYOQ", "CSkmWOhdR8kk", "WRNdVNjr", "WRS1W5vMCSkY", "4P6OWPVMNQVOGRFMRkxNO7JLP5FNKBRdHW", "sdHpWQbC", "WP8JbsdcTq", "iCkuWOLNxmkuWQqiW6jz", "CeRcJCobW4tdQa", "4P2ku+ACKEIaUUATMUEGG+wMN+ErSc4", "xZvbWOzo", "W4ykDa", "pmo8WRxcM8oWj0TRWQu", "sLDXWOq2WO/dRmk8", "vvKZxmkNW7a", "yv3cJmkwWOhcTCo+mSogua", "WQ/dLCohWQ5FWQBcMv9IW6RdIHygjW", "W5VdGeJdSunnoJe", "WQ/cSmkM", "WRH0xSoj", "WQu+dWhdUa", "WQZcGZNcTKG", "ubHObfZcNb8TC8of", "WOZcI0u", "h1hdTSk8dG", "FCkWW5/dMha", "WOBNQRNLHRBLIzddNW", "WQhdKmo0", "qmoRWQqfjG", "W7hcHmkTWQfAWQZdSNHxW4ldMWCk", "fmkKtSkqW7u", "WP8CaNPgefmeWPyjW48fW7i", "pmkdFmkcW6hcQ2VdJmoLWRPotg85lJVcPCorWRy5cq", "WOJcGummC8kKfq", "W6aqomoHcKG", "zSodWQuUkG", "W6tdPsm", "W7ZcLJrcFW", "vColh8oSWP1XW4qOnCkV", "CSkhymkU", "WOBIN4JcVW", "xWVdR2mR", "ghBdUG", "WQr6y8oUW4u", "u1LV", "W65jrW", "kCk+mSkvW7G", "CrjsWRnTbmo2eW", "W5NOR5VMS5JLP4NOT65m4P2/BW", "WQeCW4rIW7Tk", "qtzV", "WO8PjGBcHG", "WQVcSmkfE1TdWRiX", "WR96rmooW4Cr", "W5i7W4XIy8kwDmkV", "DbzlWQTydSo+", "Bw7dP1CUfxhdLCkCmW", "WOPCW7BcKCk/", "W5WCC8kJ", "WRBdV20", "WRGCdW", "5BEv6k6g57YZ6lEl6lYp6l2n6kcq5B++5yMJ6lAw5y6v", "FSoSCCoiWP/cUJpdHrZdVHtcGfW", "5lUL55g15BY75yA0a03dGa", "tcpdQ0m+", "r0n0WRCU", "W4GXW7PYq8kAD8kNhM/dP1vxrmoeCSo0W6H4W5yH", "WPfkWP/dTW", "44gC5OYl56w944oQ6k2F5yEc6i685y2hkCoahmkzyeG", "A8oJWQa", "W6dcMr9KBW", "CrPFW5DDWP3cRCk7", "mSosiCoRW7bkiW", "W7BcSg7dKgC", "WPGQgsW", "n8kcWOTxva", "WRRcSCkG", "WQldLmoSW5SlW63cTvnKW7C", "xfr7WPqhWOdcSCoOW7FdQe1rkSoNfmkN", "WQ/dLCohWQ5FWQBcMxXSW6BdHWiE", "WRO3idddUa", "WOVcMLBcU2BdKeFdMxSreSo1jW", "BwNdS1uadW", "W6Hcqq", "eqJdNNZcHa", "W7VdJqhdSSoe", "44o06lAD5y22", "6zci5O2m5AED6lso", "W7H/CWa8", "WQ3cICkVEMa", "WRpcNdi", "lCksWPO", "wmocWPOsW4K", "lHRdI0xcU2ldVZlcKSoQv3OBWQO", "DK7cGmoJW6u", "WQ8AW719W5W", "kgFcT8okW5tdRSkC", "W4FcI03cQG", "WRxcLZC", "mfZdLh/cIG", "Fg9FWOaQ", "nsNcL8odbq", "WQVcTSoYW73cM8kzW7O", "WOOJW7LQW7W", "F8okWQxcRSoS", "DhS+s8k7", "6kYR5BcO5B+b5l2g5Q+n77265y+L5BcN6k6P6yEn5zoB5AYZ5zM477676BQL6k6C57Mt57MY6lYI6kk7", "qJBdNumf", "WOpdNSo1csNdO8kJe8kjW6i", "WPLrmmo/WRpdVu18FKldMSku", "WQNdLmo2W7eAW7y", "WReDhG", "nCkdBCkUWOBcVxi", "W7KFC8kKW7i", "W4lcTIysdCktW5ddSqSt", "Dmo8WQVcL8oB", "W5NcHedcU0hdReq", "WRNdJCo6W64", "veGXuCk8", "tCoTWQ0zW6O", "WOJcHCofW6tcIa", "y8oBWOa7W43dOGvJ", "WOpcNM0Nuq", "pbZcOSkkbmozWQpdGbpdJa", "WP7LRk/NI7hdIW", "W63dSI3dIq", "n8oXWRXoWQK", "uCkKWPddLSk+", "WOFcImkCFuC"].concat(function () {
+      return ["EX1kW5HcWOFcVmkMcdLQpgiy", "WQ4BW5TZW6Xm", "vKVdOSkFF8kfW7ZdQI/dU8kVWOTD", "lCowjmo9W70", "WPTqFG", "q/cGOzWM6lYe6kgb57Mh5P+hW70", "FoE6MUwnMgu", "W4i9W6X1FSkkDmk8", "r8k7W5/dPa", "o8kKD8kFW5S", "ECofWO8+W4W", "WR5TBCoEW5K", "W4HwrGuU", "r3ldGviI", "omkjCmki", "WONdNX3dRaJdLNtdJKmGgW", "bhaXBaK", "WQ/cI8ktFLm", "WOxcS3xcQe7dPuC", "WPlcGuzEj8oUbtKpia", "p8kyaSkjW4C", "WRRdV3HtggRcSSop", "4PQdWONOHlFLR6BKUilOVRBOOi3PLiNPMBNML5FPLyhORihNVz7PL6lORk8", "6k6A5Bcy5B6+5l+x5QYc776T5y+n5Bcn6k6B6ys15zkj5A2Y5zQb77YK6BQ76kYG57MI57QM6l2n6kog", "W6ldOSoRmHqxW6fRW4lcQa", "ACknW5fLW5K", "aIZcOSodjq", "hfZdLwu", "p3ydDWm", "behdMW", "yeJcHmojW4q", "6k+X5Bgo5B+q5lYP5Q2A772H5y205BgR6k+B6ywn5zoG5A2y5zMC772X6BUA6kYm57Q757Uw6lYi6kcP", "WOTkWOldT8o0", "W7ddSJZdHCozW7/dUrxdR1WXw8ocW5zAWRjqeCoUWRL/DCk2xWrJeXxdMmoRza", "44op5OYp56ES44cE6k+E5ywI6i2R5y6aWRZdUMqPw8kN", "nmopW7LKWQe", "ymoEWPSXW78", "WPrFW70", "W7DiuSoKsSosomortSkI", "CSk2W77dHvC", "WOlcV0lcT0ddK1G", "5y6W6yEH5B685zcN54MK5OgQW4KrWOBcVmoAW5xcMmk4W7pdGa", "CW7dULeaWROSf8kFkYVcT0pcGGGalW", "WRdcQSkIsuvlWRS", "W7RdPthdK8of", "y8k2W7TjWOtdPmklWR7dKCkT", "WQVdL3LVlG", "4P2gWPxOH7NMNBVOVAJOO4RPGkFLIkdKUlNPLBFORzhdVq", "f8klWPq", "DHVdVG", "DHDxW6y", "W4i+m8oIfq", "W7WajCoU", "WR3cSSo3W6K", "b0O8vW", "iCocjmo2W7PlfeVdGmk5", "W70aoCoYhW", "6lsw5yYT5Pww5PEy", "W5ZcHum", "W7WFW5npEq", "5lYG5Akk5ywK55Ql6zon5O2d5lUD7729", "lSkoWOO", "WQNdNSo/", "hWZcPCop", "W7Sup8oYkKNdGmoV", "s10Zx8k8W7u", "W44GW6TMySofnCoNghJdIXrvaCohC8ktW6vZW54", "ufK0tmkCW7qXW4G", "W4FcI03cQM3dIK/dJW", "WQZcRwNdOMxdQSkV", "WRCCf8oXgW", "WRqChq3dUMpcQa", "WRT/WQddLSoj", "5RE25yIx5BwH5lInuG", "umoLWQiZW7O", "dSo+W79cWOW", "WRW9iW7cKa", "WORcI0Sg", "xSkrWQy", "WRa+W7LdW4y", "WOhcHKemC8kWvMDzDMBdT2WDB8ol", "ySoHomkRWO4", "6lE/5yYK5PwJ5PEa", "gmoeWR8DfbuOWPNdKa", "EbfmW61tWPW", "DCoPWRBcI8okj1O", "WRdcKahcQv0", "nZtcQXvWdMVdMmkKh8oC", "6k+k5AgD5yAb5Q6t56cm55MI6zg/5O28", "zWzpWQ9wh8oygwRdPq", "WOxcQSkPwsK", "W4SbW6TYCW", "WQajgYJcRW", "pxJdR8kVmq", "y8oKWOtcKSoz", "a0q4xa", "W5zfW7tcNmkUfmonj8o2f3W", "WPhcKu0CDW", "ACoDWOiLW7VdQqr1W74A", "5y6v6yww54IN5OcS57Iu5P+uW5NdQmkfW7uZWPJcJCkTWQBdRW", "W4jdvG", "6ycU55Yq5O2r6yk+W7ZdJSo2", "Fmo2WRCykLS", "W4OXW7fXzCkx", "lrBdJwpcT3K", "DXxdQq", "sh4zFmkL", "aKRdOZddO1pcQ1JdK8oZWOlcICobW7y", "lCkeWO58uSkbWOi", "gCownmo/W7C", "DvpcOSo0W5C", "pSknpSkoW6e", "WOBcHSkC", "WQVcRCk/yG", "CW7dULeaWROSf8kADY7dVqddJW0jlJpdIbtcNbehW4ddLmoEWR1KW4a5oSkjWPi", "WRFcKSkfzfW", "WOGsjbZcTa", "WOddHXBdSWdcMHS", "W7ryvCkH", "5l6T5Aou5ysk55Ih6zkm5O+N5lUa77Yg", "4PQUiEIfUowUVEs4IoI+Q+IHSEMvIoMzU+AwSEMxHEIUOUE8KoMvQUISHa", "tLy+vmk9W7K5W54", "WORcKCosW4NcIG", "WPqvmcFcPa", "kHddM2m", "dLCHscG", "4P+idEACJoECRoIVNUAZV3C", "WRFcVmo0", "WR7dU253oa", "5RsD5yIg5BAz5lMpW54", "W6VdI2pdTem", "WORcNeOhEmkXbdCegJhcQq", "W4Dcsmk9tmoti8kxC8k+W5rK", "WPK2bspcQq", "WQ/cGmosW67cMq", "W7lcIL/dVa", "iCo2W7y", "bSoSW55uWOq", "oZVdTMVcOG", "WOa8dG", "CmoVWR8YpW", "q1KPwq", "d8oshCoRW7O", "EX1kW5XzWOxcOq", "WR0VW6HxBSk/jhu", "fKhdTSkmlG", "WOxcMCkaqJi", "qLVdOeyV", "auW4ubxdSLzI", "tur9WQ8rWOpdSSkQWQZcTbC", "WO8+pt7dGW", "4PQhgoIgT+wUOUs6GEI9JEIGKoMvMEMAUUAvHUMuNEITKEE/GEMuMoIUQG", "WQbhW6G2WQCoW7RdQW", "lCkiWPm", "6zwe6zM+5PEs6zAHa8kdEq", "B8oZWQ8Djq", "nmkoWQ57qCkpWOKa", "nCochmozW7G", "WQddJmo0", "6k+95AoE5yw65QY056ow55Ic6zkE5O61", "eSk3WRnRyW", "sLKT", "W5DRrmkhxq", "W6aAmq", "W5BORj7MSQ7LPjROTApdI+kDRmkc5Psr5zcT5BI25Pw35O6p", "AHXC", "vfa0xSk8", "sSobda", "W6jexG", "W4O7W7G", "WQChW5bZDW", "WRRdK0nucW", "q8oDWO4vW5e", "WRBdGCo0W78A", "WRScW5TUW70", "iXddLMG", "5Bwc57IL6AkI5yYi6l++", "WR/dNCoCW5OI"].concat(function () {
+        return ["rfa8sSkjW6K", "u8kqWO3dVmkPWPVdNCkOW6VdRq", "WPfeWOxdHSoznCkj", "W4qkza", "pSoPW71eWRm", "WQpdRCoHnW", "pCkGWQn0ya", "EgziWOCy", "W4elymkQW7lcQNL+", "WOtcImkctYNcHG", "W4uZDSk0W5e", "pCoRW7rYWRtdRSkv", "WPxcGu4cFG", "AaRdOKGh", "WRP5rCohW5W", "xSk7W5VdTq", "wH3cHq", "W4jjxY8cqq", "z8kVW7tdK1y", "WR3cLWpcMg8", "WRFdHmo2W5maW7O", "WOhdISo1aZy", "AbDTW7XcWOhcQSk4", "5BE057Q86Ak95yYr6l++", "hLu5ubu", "iSktASko", "p8o8W6fbWQBdQmkb", "aXZcUmoam8oE", "WROtW5LJW6zt", "WOu9cIxcTmk4qae", "W4xcTWPzxComW6O", "WQqDW5a", "WQBdGGxcUJhcSCkLW4O4BSoRW4ZcGa", "WOPzW7NcM8kUh8kq", "jSoZmCovW6a", "xmk1W5e", "wCkyW67dU1q", "wfHU", "56A6C+I9RoIHHoMuPUMBV+AuGUMvKW", "6k+r5Aof5yEY5Q6I56kq55QA6zgv5O+M", "iCotW4r+WRu", "WOpdKNbTja", "WRHByq", "WQRdMSoNW4aDn8kkCWia", "a+E5UUAEGU+9Sos5GoATH+AwQoEbHoAEIowqHKa", "Ee3cJZ7dRtRcPwpcRSoBv0q9WPC", "lmoynW", "tJPoW7Hy", "WPneWPu", "BmoCWO02W5tdQHK", "yM7dTq", "WQFdUhzA", "owVdI1VcTq", "e8o2eSoQW6C", "WQtdP2ffia", "W5tdT2xdQ3a", "DmkRWQuvW7/cUmouWPtdRCkADSoaW58", "5PEM5RkM6i6m5yYr6yk56k6A56kA", "WPLhWP3dVCoc", "wSktW4ddTeu", "t1n8W4ztW57dNSkSWRFcTW", "BXbnW6bdWOdcOSkVoG", "iYpcPmogkq", "iGRdMmkyWONcUSkqF8oTw8kcWOFdRSkH", "oZFcK8obba", "CfdcICosW7hdUq", "WR3dKmoJ", "W4ikASkO", "fSksWPLMvW", "WPhcJmkyzIpcMmkdW4pcLSkf", "jmowjmo/W5Hyje/dJCkYWOG", "W4pdQhZdUMq", "qKOVv8k6", "j8kTBCkVW7G", "evFdHxhdVYBcUqhdN8oLW4FcOmoTWR/cO8kq", "WPxcHSkcsblcISkdW4K", "WQ3cVSk4A0zh", "axW9vWK", "5RkV5PYi6iYL5y+X5yMX6lAi6l2r6zgc5O2k", "WO7cQHtcNeO", "WP4YbY3cRSkX", "6Akv5y+U5lUI6zUW", "WRRdNSo6W7CMk8kxEq", "W6pcJ1ddS3RdJe3dGweD", "dFc8KktdNUI9V+IGMoE7VEAEHSks", "5Ps96zAA5QAI", "4P2ciEIgIoACI+I+KEIGT+MbUUwkJos5QEMvNUITLry", "W6/cLY0", "j8osjmoxW7TvpKRdGCkFWOddPmkkW4BcLSkP", "W47cUXvEwCoz", "gNBdS8kH", "FSomWPmY", "W4SFtmkjW4a", "Ef3cKCot", "wSkAWO7dQ8kVWOpdIa", "sSoiWPlcLCoQ", "h0/dLxZcHGlcMuK", "bKhdIW", "lHRdI0xcU3JdPdtcMCop", "W6pdRvNdV3q", "rSohWQS", "WPFdPmouW5GS", "W5WGmmo1jG", "WQtOR5RMSAtLKitLUR3cNq", "WPy0dXpcLG", "zSoLWO4qW7a", "WR1bzCk/sHpdVmo7CwRcVfO", "WOPyW6JcKCkLc8kkkCo7", "WRpcSmkX", "WQ56x8ogW4O", "yrzvWPj4", "AMJdOuqUdLpdIa", "ECkAWOpdLSkQWOldJmoOWRdcSmoRW7ZcHsiwW748WQ7dUJZcTcT+WONdGSokW53cPCk7sSobWPyxWP3dIrZdKmoubYLCB8oWpZe+uJtdRw7dNfyXdrnNWRddKCk6FmourwFdG8omASkiWRlcSCk+uCk5j8kECCoqz8oVt8kMWR5cWQqTDxBdMmk9jSkundfndfxcULJdIJ/dQh4fWQrAghmnrNddHWiynSo1WPfNg8o/E15kfSkgqCkWkCo+gvDDWQ0pWQBdUmkpW4ZdHq", "WP3dNgLzoG", "tKz0WPKw", "yv3cMmomW5hdRSoe", "fmkMWQLkyW", "jmoypSo7", "W6Sqomouh07dICoLDvFcHLG1lSkE", "Dx4FsSkS", "sCocWQuAda", "W4LjxXOxrWaBWPelW5ieW4fiWOC", "rSkuWPFdM8kPWOm", "j8ospSomW7rxm0VdICkpWPVdUmkxW43cNW", "W6NNUPpMN6tVVk/KUjFMR7FMLQpNGQVMNzRLKjKR", "t8omWRmBpW4", "WQFdKmo6W60", "W5JcUh7cILO", "lvldTCkVhW", "iva8Adi", "pmkfz8kM", "W4DcuIqdtqeh", "hLJdI8kika", "WO7cI0Wn", "DWXVW7X3", "W4KvC8kQW6i", "yM7dSuy1eLldKG", "WQ7dMmoNisa", "WRabhG", "nmkkDSkjW4e", "W5pNQyhLHOVLJ4RdVa", "W6tcGLRdOxu", "WQCLW55htSkZj31jwXyYWOyQW6OiAmkLESolW6q", "B8oPWQBcMSokjL0", "k8k+kCkUW6K", "W7OWt8kiW4u", "W7aOt8koW7pcUMXFCL3dOCkbbCon", "6zk+5OYs5zgE6z+855Ir5A2U562X5B+H6AoF5lUMW5JKV4FLRQNNROu", "E3xcU8olW4u", "WPldQmomlWO", "aCksqmkKW5e", "W7VcNve", "WPNdO015rSo7W6ldTIm", "W7usW71yzq", "f8ktuSkRW6e", "WRxcSmk/yq", "W61ds1VcTHNdUgaYW6FcJ25hW6qvWQRcHSoBW4GFjfXipmoirW9qfaeyWPBcTSkQkXe", "WQZdHSooW6q8", "fNBdSSkOiX08", "W7ZdPrFdICotW67dRWO", "ywJdQ00c", "jfBdJSkq", "qrHdWRbZ", "WQqBW5PUW71TWQdcQq", "drVcSCoXbq", "W5/dSchdUSov", "W4S1W6T1Eq", "WPZdU311jW", "bCohW4O", "E0JcItxdOZ3cRa/cGCoTuwq7", "bSkyWOvFFW", "rCk/W5RdULO", "WQFdI8opeau", "WR4vW51mW7O", "uComWRLkEL4IWPlcIuq", "BgXCWOKW", "W6yrE8oKh0ldImoMCde"];
+      }());
+    }());
+  }();
+  Il1Ili1I = function () {
+    return ilIliiIl;
+  };
+  return Il1Ili1I();
+}
+;
+!(async () => {
+  const IliiilI1 = l1iIl111,
+    i1ii1Iii = {
+      "YkSAP": function (ililiii, IIII1I1I) {
+        return ililiii(IIII1I1I);
+      },
+      "FDPxo": function (iI11l1Il, IiIiiili) {
+        return iI11l1Il >= IiIiiili;
+      },
+      "WuBCd": IliiilI1(299, "RTlN"),
+      "lJUSr": IliiilI1(320, "eCry")
+    };
+  notify[IliiilI1(603, "jLh4")]({
+    "title": $["name"]
+  }), await Main();
+  if (isNotify && notify[IliiilI1(627, "dOzb")]()) {
+    if (i1ii1Iii[IliiilI1(366, "yVhj")] !== IliiilI1(257, "uLOZ")) await notify["push"]();else try {
+      const IiiI1Il1 = i1ii1Iii["YkSAP"](llIIliI, IiiIlI1l);
+      i1ii1Iii[IliiilI1(332, "n6t%")](IiiI1Il1, 0) && (Iii1ilIl[IliiilI1(422, "l#Y%")] = IiiI1Il1);
+    } catch {
+      lI1iiii1[IliiilI1(434, "syjB")](i1ii1Iii[IliiilI1(344, "4xN)")]);
+    }
+  }
+})()["catch"](lllIi1II => $["logErr"](lllIi1II))[l1iIl111(375, "eCry")](() => $[l1iIl111(443, "uLOZ")]());
+async function Main() {
+  const Ill111ll = l1iIl111,
+    IlI1l1II = {
+      "mUtdb": function (iiIIIiii, II1ililI) {
+        return iiIIIiii > II1ililI;
+      },
+      "jfKYb": function (IiI1Iii1, ilI1llI1) {
+        return IiI1Iii1 * ilI1llI1;
+      },
+      "rHrRL": function (II1iI1l, l11Il1ll) {
+        return II1iI1l - l11Il1ll;
+      },
+      "QZDyR": function (Iiiil1i1, ll1ilI1I) {
+        return Iiiil1i1 << ll1ilI1I;
+      },
+      "rbOYP": function (liiIiIl, lil111l1) {
+        return liiIiIl & lil111l1;
+      },
+      "EPPwz": function (iiii11li, Il1iI1ll) {
+        return iiii11li == Il1iI1ll;
+      },
+      "zDUnz": Ill111ll(407, "Mn3#"),
+      "CpNZC": Ill111ll(307, "eCry"),
+      "PsqwN": Ill111ll(494, "POES"),
+      "JFzxf": function (I1iliii1, IIIIi111) {
+        return I1iliii1 * IIIIi111;
+      },
+      "FyxPL": function (I1illIiI, illIIi1I) {
+        return I1illIiI + illIIi1I;
+      },
+      "oBZFl": function (ii1lI1l, l1illilI) {
+        return ii1lI1l(l1illilI);
+      },
+      "Dlxiw": "239",
+      "SCcss": function (llIiIIll, llll1ii1) {
+        return llIiIIll + llll1ii1;
+      },
+      "fYNvF": Ill111ll(331, "syjB"),
+      "hRZTc": function (i1Il1IIl, Iii111I1) {
+        return i1Il1IIl === Iii111I1;
+      },
+      "ocTva": Ill111ll(596, "BZC&"),
+      "SFbNt": function (il1Il1I, i1Ii1iii) {
+        return il1Il1I !== i1Ii1iii;
+      },
+      "pTEqz": Ill111ll(754, "yVhj"),
+      "XrhwX": Ill111ll(738, "v^Ew"),
+      "uuLGm": function (IIllliIl, I1I1iii) {
+        return IIllliIl(I1I1iii);
+      },
+      "YFzAw": Ill111ll(506, "r4dy"),
+      "iUdUh": Ill111ll(268, "zIZ7"),
+      "SzQCb": Ill111ll(400, "l#Y%"),
+      "xLNDO": function (llIliI1, Ill1liI1) {
+        return llIliI1 > Ill1liI1;
+      },
+      "crtqI": function (iIli1Ili, ll1lIli1) {
+        return iIli1Ili !== ll1lIli1;
+      },
+      "ktQtG": "AHwPv",
+      "bXkHh": Ill111ll(482, "Si%b"),
+      "yVhIf": function (I1Ii1IlI, I1iill1) {
+        return I1Ii1IlI !== I1iill1;
+      },
+      "wgijY": Ill111ll(278, "R5aw"),
+      "KBVfc": function (iiIi11, il111liI) {
+        return iiIi11 === il111liI;
+      },
+      "PUfsX": "eqpwY",
+      "Jcfkf": "\u94FE\u63A5\u540E\u9762\u7684\u5B57\u7B26\u5FC5\u987B\u4E3A7\u4F4D\u5B57\u7B26",
+      "xLviz": function (iillIilI, lIil1l1l) {
+        return iillIilI(lIil1l1l);
+      },
+      "yiSvw": "https://updateteam.oss-cn-hangzhou.aliyuncs.com/red18.json",
+      "RBpph": "\u65E0\u6CD5\u83B7\u53D6\u9080\u8BF7\u7801",
+      "EuKMR": "fjboK",
+      "sGEOe": "pelVs"
+    };
+  try {
+    if (IlI1l1II[Ill111ll(453, "#ilO")](IlI1l1II[Ill111ll(531, "wP(Z")], IlI1l1II[Ill111ll(234, "Ah)J")])) {
+      try {
+        if (IlI1l1II[Ill111ll(479, "v^Ew")](IlI1l1II[Ill111ll(696, "syjB")], IlI1l1II[Ill111ll(649, "l#Y%")])) {
+          const l11Ill = IlI1l1II["oBZFl"](parseInt, taskThreads);
+          IlI1l1II[Ill111ll(239, "v^Ew")](l11Ill, 0) && IlI1l1II[Ill111ll(310, "Q)[D")](l11Ill, 1) && (taskThreads = l11Ill);
+        } else {
+          const iiiI11il = Iilil1i(iiIlIill);
+          IlI1l1II[Ill111ll(705, "[AqX")](iiiI11il, 0) && iiiI11il !== 1 && (iiIiiIl1 = iiiI11il);
+        }
+      } catch {
+        taskThreads = 1;
+      }
+      taskThreads = Math[Ill111ll(301, "w7rH")](taskThreads, maxThreads), $["waitTime"] = null;
+      if (runInterval) {
+        if (IlI1l1II[Ill111ll(288, "bcV[")](Ill111ll(730, "JeZ2"), Ill111ll(518, "EavT"))) try {
+          const lIIii1I = IlI1l1II[Ill111ll(305, "uLOZ")](parseInt, runInterval);
+          if (lIIii1I >= 0) {
+            if (IlI1l1II[Ill111ll(560, "dQNV")] !== Ill111ll(522, "w7rH")) {
+              let lIIIilll = lii1liIl["location"];
+              lIIiI11I = lIIIilll[Ill111ll(492, "v^Ew")](/\/active\/(\w+)\/index/)?.[1], ll1l1ili = lIIIilll;
+            } else $[Ill111ll(743, "JeZ2")] = lIIii1I;
+          }
+        } catch {
+          console[Ill111ll(434, "syjB")](IlI1l1II[Ill111ll(695, "wP(Z")]);
+        } else {
+          liIi1i1I["log"](Ill111ll(752, "PXqF") + IlIi1ll1 + Ill111ll(450, "Rxn7"));
+          return;
+        }
+      }
+      $[Ill111ll(420, "POES")] = Date[Ill111ll(275, "jQrx")]();
+      const iili1lI = $[Ill111ll(377, "a!!@")](IlI1l1II["SzQCb"], endTime);
+      if (endTime && IlI1l1II[Ill111ll(758, "99M^")]($[Ill111ll(328, "JDV2")], endTime)) {
+        if (IlI1l1II[Ill111ll(273, "wP(Z")](IlI1l1II[Ill111ll(460, "IB(Z")], "BKjXP")) {
+          console[Ill111ll(284, "yVhj")](Ill111ll(277, "IoAu") + iili1lI + Ill111ll(370, "bcV["));
+          return;
+        } else l1IiIi1I += IlI1lI1I[Ill111ll(391, "Mn3#")](i1ill1i[Ill111ll(465, "JIxP")](IlI1l1II["jfKYb"](Il1i1li[Ill111ll(354, "99M^")](), lii1l11i["length"])));
+      }
+      console[Ill111ll(737, "#ilO")](Ill111ll(572, "wP(Z") + $[Ill111ll(243, "wP(Z")] + Ill111ll(720, "l#Y%")), console[Ill111ll(586, "ZqFO")](Ill111ll(302, "#ilO") + $[Ill111ll(746, "RTlN")] / 1000 + Ill111ll(364, "l#Y%")), console["log"](Ill111ll(613, "dQNV") + common[Ill111ll(679, "IB(Z")]() + "]"), console[Ill111ll(376, "zIZ7")](Ill111ll(249, "POES") + (isNotify ? "\u5F00\u542F" : "\u5173\u95ED") + "]"), console[Ill111ll(372, "uLOZ")]("\u8D26\u53F7\u8FC7\u6EE4: [" + pinFilter[Ill111ll(733, "wP(Z")](", ") + "]"), console["log"](Ill111ll(703, "syjB") + $[Ill111ll(617, "JDV2")] + Ill111ll(247, "yVhj")), console[Ill111ll(284, "yVhj")]("");
+      const Iii1111I = Ill111ll(757, "POES") + common[Ill111ll(449, "uLOZ")](13, IlI1l1II[Ill111ll(293, "EHJB")]);
+      $["UA"] = common[Ill111ll(436, "dQNV")](Iii1111I);
+      if (/https:\/\/u\.jd\.com\/.+/["test"](red618_url)) {
+        if (IlI1l1II[Ill111ll(714, "yVhj")](IlI1l1II["wgijY"], Ill111ll(476, "JIxP"))) {
+          if (red618_url[Ill111ll(321, "dOzb")]("/")[Ill111ll(542, "IB(Z")]()) {
+            red618_url = red618_url[Ill111ll(571, "Ah)J")]("/")[Ill111ll(392, "PXqF")]()[Ill111ll(709, "Mn3#")]("?")["shift"]();
+            if (red618_url[Ill111ll(660, "dOzb")] !== 7) {
+              if (IlI1l1II["KBVfc"](IlI1l1II[Ill111ll(428, "JeZ2")], IlI1l1II["PUfsX"])) console[Ill111ll(311, "JeZ2")](IlI1l1II[Ill111ll(463, "K8[[")]), console[Ill111ll(727, "n6t%")](Ill111ll(521, "5&Be") + red618_url), console[Ill111ll(357, "99M^")](Ill111ll(702, "wP(Z")), red618_url = "";else return Iil1ll11 = IlI1l1II[Ill111ll(508, "(i2(")](IlI1l1II[Ill111ll(501, "R]Vr")](Il1I1IIi, 5), IiiIlI) + lIll1lI[Ill111ll(246, "eCry")](0), IlI1l1II[Ill111ll(325, "PXqF")](IillilIl, i1I11i1);
+            }
+          } else console[Ill111ll(315, "IoAu")](Ill111ll(236, "R]Vr")), console[Ill111ll(477, "(i2(")]("\u4F60\u586B\u5199\u7684\u94FE\u63A5\u4E3A\uFF1A" + red618_url), console[Ill111ll(577, "PXqF")](Ill111ll(710, "dQNV")), red618_url = "";
+        } else {
+          if (IlI1l1II[Ill111ll(333, "R]Vr")](ill1ili1[Ill111ll(532, "syjB")](I11I1iiI["split"]("=")[1]), -1)) IilIlli += IlIlIIi["replace"](/ /g, "") + "; ";
+        }
+      } else red618_url["length"] === 7 ? red618_url = red618_url : red618_url = "";
+      authorCodeList = await IlI1l1II[Ill111ll(570, "Si%b")](getAuthorCodeList, IlI1l1II["yiSvw"]);
+      authorCodeList ? $[Ill111ll(734, "uLOZ")] = authorCodeList[random(0, authorCodeList[Ill111ll(353, "[AqX")])] : console[Ill111ll(504, "JIxP")](IlI1l1II[Ill111ll(373, "IB(Z")]);
+      $[Ill111ll(698, "EavT")] = red618_url ? red618_url : $[Ill111ll(557, "w7rH")], $[Ill111ll(386, "R]Vr")] = Ill111ll(721, "1#OP") + $["red618code"];
+      red618_url && (console[Ill111ll(515, "eCry")]("\u9080\u8BF7\u94FE\u63A5: " + $["red618_url"]), console["log"]("\u9080\u8BF7\u7801: " + $["red618code"]));
+      console[Ill111ll(317, "v^Ew")](""), $["needRemoveCookieIndex"] = [], await common[Ill111ll(401, ")5@u")](taskThreads, cookiesArr, taskFnc), $["runEnd"] = ![];
+      $[Ill111ll(582, "JIxP")]["length"] > 0 && (IlI1l1II[Ill111ll(480, "JIxP")] !== "eSIoz" ? (cookiesArr = cookiesArr["filter"]((lI1i1iii, lIl1Il1) => !$["needRemoveCookieIndex"]["includes"](lIl1Il1 + 1)), $[Ill111ll(468, "Rxn7")] = []) : (lil1l1I1[Ill111ll(592, "EHJB")](lil1IlI + Ill111ll(324, "#ilO")), IlIliiI[Ill111ll(641, "w7rH")]?.[Ill111ll(457, "r4dy")](IlI1l1II["zDUnz"]) && (I1l1Iii = !![])));
+      const I1l111I1 = notify[Ill111ll(395, ")5@u")]();
+      I1l111I1 && console[Ill111ll(287, "U]@[")](Ill111ll(684, "2cM3") + I1l111I1["replace"](/：/g, Ill111ll(590, "v^Ew")));
+    } else Ii11IIil[Ill111ll(689, "eCry")]("/")[Ill111ll(568, "syjB")]() ? (i1ililI1 = ii11Ii1l["split"]("/")[Ill111ll(260, ")5@u")]()[Ill111ll(322, "99M^")]("?")[Ill111ll(314, "RTlN")](), l1ilIIII[Ill111ll(744, "RTlN")] !== 7 && (Ii1I1i1l[Ill111ll(374, "JDV2")](Ill111ll(473, "uLOZ")), IlliIl1[Ill111ll(329, "l@O[")](Ill111ll(739, "w7rH") + I1iilIiI), i1IlIlII[Ill111ll(573, "EavT")](Ill111ll(656, "jLh4")), iI1II1i = "")) : (liI1IIlI["log"](IlI1l1II[Ill111ll(498, "K8[[")]), l1l11lI1[Ill111ll(515, "eCry")](Ill111ll(267, "PXqF") + iIllI1i), Iii1lIil["log"]("\u8BF7\u5C3D\u5FEB\u4FEE\u6B63\uFF0C\u53EF\u5C1D\u8BD5\u91CD\u542F\u5BB9\u5668\uFF0C\u9ED8\u8BA4\u7EE7\u7EED\u8FD0\u884C"), IliII1Il = "");
+  } catch (I11llIII) {
+    if (IlI1l1II["yVhIf"](IlI1l1II[Ill111ll(635, "ZqFO")], IlI1l1II["sGEOe"])) {
+      let iIl111i = IlI1l1II["PsqwN"],
+        IiI1llll = "1",
+        i1illiIi = l1I1Ill1(I1lI1Ii["now"]() / 1000)[Ill111ll(292, "Rxn7")](),
+        lIiliiii = i1illiIi + II11IIil(IlI1l1II["JFzxf"](2147483647, i1I1li1[Ill111ll(519, "#ilO")]()))[Ill111ll(348, "IB(Z")](),
+        iIililil = [iIl111i, lIiliiii, i1illiIi, i1illiIi, i1illiIi, IiI1llll][Ill111ll(481, "syjB")]("."),
+        I1Iliil = [iIl111i, IiI1llll, [lIiliiii, IiI1llll][Ill111ll(693, "JIxP")]("|"), i1illiIi][Ill111ll(393, "l@O[")]("."),
+        i11i1iII = iIl111i,
+        liliIiI1 = [iIl111i, Ill111ll(252, "2cM3"), "-", Ill111ll(459, "EavT"), "-", Iilli1["now"]()[Ill111ll(510, "Mn3#")]()][Ill111ll(756, "EavT")]("|");
+      liliIiI1 = lII1III1(liliIiI1);
+      let l1I1IlIi = IlI1l1II[Ill111ll(496, "w7rH")](IlI1l1II[Ill111ll(442, "n6t%")](ii1II11I, "xxxxxxxx-xxxx-xxxx-xxxxxxxxxxxx") + "-", i1illiIi),
+        llIlli1 = IlI1l1II[Ill111ll(548, "RTlN")],
+        I1ll1IIl = [llIlli1, IiI1llll]["join"]("."),
+        i1ii1lIi = [lIiliiii, llIlli1, i1lIlI[Ill111ll(740, "w7rH")]()[Ill111ll(292, "Rxn7")]()][Ill111ll(528, "JeZ2")]("."),
+        Iii1IIIi = IlI1l1II[Ill111ll(551, "POES")](iIIlIIII[Ill111ll(435, "jLh4")](IlI1l1II["JFzxf"](5, i11lIII[Ill111ll(448, "POES")]())) * 2, 1)[Ill111ll(604, "v^Ew")](),
+        li111iI1 = IlI1l1II[Ill111ll(655, "RTlN")](IIlIiili[Ill111ll(444, "JeZ2")](32, Ill111ll(628, "R]Vr")), IlI1l1II[Ill111ll(381, "R5aw")]);
+      return {
+        "jda": iIililil,
+        "jdb": I1Iliil,
+        "jdc": i11i1iII,
+        "jdv": liliIiI1,
+        "shshshfpa": l1I1IlIi,
+        "mba_sid": I1ll1IIl,
+        "mba_muid": i1ii1lIi,
+        "pre_seq": Iii1IIIi,
+        "pre_session": li111iI1
+      };
+    } else console[Ill111ll(313, "dQNV")](Ill111ll(726, "eCry") + I11llIII);
+  }
+}
+async function taskFnc(lI1IilI, iil1l1I1) {
+  const lI1IlIil = l1iIl111,
+    II11i111 = {
+      "HKfNS": function (IiI1lli1, lIlliIi1) {
+        return IiI1lli1 !== lIlliIi1;
+      },
+      "fkJTg": "JXgNV",
+      "mvjjX": function (i1IiI1l, IilIilIi) {
+        return i1IiI1l + IilIilIi;
+      },
+      "PnJGQ": function (llIiIIi, IIiIil11, I1Iiilil) {
+        return llIiIIi(IIiIil11, I1Iiilil);
+      },
+      "oiyjC": lI1IlIil(524, "syjB"),
+      "hMSku": lI1IlIil(600, "dQNV"),
+      "zgfZW": "headers",
+      "hycXG": lI1IlIil(409, "#ilO"),
+      "cByym": "MYhWQ",
+      "RVNdP": lI1IlIil(634, "2cM3"),
+      "RULNB": function (llI1IIl, iiil) {
+        return llI1IIl === iiil;
+      },
+      "xoIFk": lI1IlIil(507, "POES"),
+      "ccaiu": lI1IlIil(587, "5&Be"),
+      "RwyEq": function (lii1i1li, I11111II) {
+        return lii1i1li == I11111II;
+      },
+      "QhZYp": lI1IlIil(365, "IoAu"),
+      "sCEro": function (iiIliiIl, IilIiIlI) {
+        return iiIliiIl + IilIiIlI;
+      },
+      "ueljh": function (iI1li11l, lilil1li) {
+        return iI1li11l(lilil1li);
+      },
+      "czOOG": function (lliIIIi1, l11I1l1l) {
+        return lliIIIi1 + l11I1l1l;
+      },
+      "MdJEW": lI1IlIil(717, "Q)[D"),
+      "vgjKs": lI1IlIil(345, "Ah)J"),
+      "LZran": function (il1ii111, l1IIili1) {
+        return il1ii111 === l1IIili1;
+      },
+      "AuKeW": lI1IlIil(298, "Si%b"),
+      "BlHUe": "bylvs",
+      "RFBrd": lI1IlIil(538, "[O4@"),
+      "PCkRI": function (I1ll1ili, II11IIII) {
+        return I1ll1ili * II11IIII;
+      },
+      "XZyOe": lI1IlIil(232, "IB(Z"),
+      "hRDYJ": lI1IlIil(416, "EHJB"),
+      "BQNmu": function (lIIlI1ll, i1iI1iil) {
+        return lIIlI1ll + i1iI1iil;
+      },
+      "VSBHJ": lI1IlIil(712, "ZqFO"),
+      "xFbPC": function (ill1iIli, I1III1Ii) {
+        return ill1iIli * I1III1Ii;
+      },
+      "iBnyh": "abcdef0123456789",
+      "DqaBX": lI1IlIil(399, "JIxP"),
+      "zulGL": lI1IlIil(403, "wP(Z"),
+      "vSQfg": lI1IlIil(645, "99M^"),
+      "iBXkf": function (l1I1iii1, l11I1lii) {
+        return l1I1iii1 == l11I1lii;
+      },
+      "EfOda": function (Ili1IiI1, iI11III1) {
+        return Ili1IiI1 !== iI11III1;
+      },
+      "OeMuo": lI1IlIil(691, "r4dy"),
+      "XqfST": function (lIlIIII1, IlIlill) {
+        return lIlIIII1 + IlIlill;
+      },
+      "lPmGH": "[\u4F18\u60E0\u5238]",
+      "ySPNb": "[\u6253\u6298\u5238]",
+      "qFWgR": lI1IlIil(466, "ZqFO"),
+      "QVFlv": function (iiiI1ii, liiI111I) {
+        return iiiI1ii * liiI111I;
+      },
+      "jUEHP": lI1IlIil(614, "1#OP"),
+      "XWJrn": lI1IlIil(264, "U]@["),
+      "NKtge": lI1IlIil(491, "ZqFO"),
+      "jIvdw": lI1IlIil(475, "K8[["),
+      "GXNNR": function (lllli1ll, IIliI1li) {
+        return lllli1ll + IIliI1li;
+      },
+      "eqtIp": "\u65E0\u95E8\u69DB",
+      "SBQAt": function (lliiiIIi, IIii111) {
+        return lliiiIIi > IIii111;
+      },
+      "FBWvF": "XYiIH",
+      "MjiHB": "invalid",
+      "vkEqz": "\u9886\u53D6\u4E0A\u9650",
+      "fDaKu": function (i11iIli, ilIllI1I) {
+        return i11iIli === ilIllI1I;
+      },
+      "HTgNh": "wvzzM",
+      "WDrST": lI1IlIil(701, "bcV["),
+      "gEYXz": lI1IlIil(487, "EHJB"),
+      "TNEfC": lI1IlIil(704, "eCry"),
+      "jAVLn": lI1IlIil(424, "2cM3"),
+      "bkhly": "u_hongbao",
+      "wdLko": lI1IlIil(461, "l@O["),
+      "AYGpH": "MO-J2011-1",
+      "yVTWg": lI1IlIil(279, "EavT"),
+      "iwVrR": lI1IlIil(541, "Q)[D"),
+      "IsSuc": function (iIlliiI, Iiiiiii) {
+        return iIlliiI + Iiiiiii;
+      },
+      "evhCU": function (I111il1i, IilliilI) {
+        return I111il1i * IilliilI;
+      },
+      "PecHP": function (lli1Iill, Il1illI) {
+        return lli1Iill * Il1illI;
+      },
+      "MDUkE": function (lililI1I, iIII1lIi) {
+        return lililI1I * iIII1lIi;
+      },
+      "NMrfW": "*/*",
+      "wcvXg": lI1IlIil(676, "yVhj"),
+      "Qzpbu": function (i1lill, i1lIlIIi) {
+        return i1lill + i1lIlIIi;
+      },
+      "oDWEj": lI1IlIil(472, "l@O["),
+      "Iarkw": lI1IlIil(745, "v^Ew"),
+      "tQhKe": lI1IlIil(300, "99M^"),
+      "aBXXf": lI1IlIil(280, "Q)[D"),
+      "rDImv": function (l1ii1i11, IilIl1iI) {
+        return l1ii1i11 < IilIl1iI;
+      },
+      "QCrbB": function (Ili11I11, i1Illll1) {
+        return Ili11I11 !== i1Illll1;
+      },
+      "ZPAdB": lI1IlIil(405, "Ah)J"),
+      "DOSjp": lI1IlIil(455, "wP(Z"),
+      "nGkPk": lI1IlIil(484, "EHJB"),
+      "SABtr": lI1IlIil(438, "POES"),
+      "oFDDm": function (iIiilii1, iiIillI) {
+        return iIiilii1 > iiIillI;
+      },
+      "eQiix": lI1IlIil(657, "1#OP"),
+      "EyZVI": function (l11liilI, Ilillil) {
+        return l11liilI !== Ilillil;
+      },
+      "qnmvL": "KsWxv",
+      "bxGvw": "https://pro.m.jd.com/mall/active/3GriExsopKWEjptvv33rYCcDgUwK/index.html",
+      "mVurV": function (i1iiil11, iIililIi) {
+        return i1iiil11 < iIililIi;
+      },
+      "RSVNb": function (iIIiii11, iI111I1I) {
+        return iIIiii11 !== iI111I1I;
+      },
+      "xFYne": "wLEFH",
+      "OjfJJ": function (IiIIIIiI, ll1lIIII) {
+        return IiIIIIiI(ll1lIIII);
+      },
+      "QwSIa": lI1IlIil(715, "eCry"),
+      "GnLZA": function (ilIiiII1, lI1IiI1I) {
+        return ilIiiII1 === lI1IiI1I;
+      },
+      "YjAgM": lI1IlIil(276, "a!!@"),
+      "DTRDy": function (liIlilII, l1lll11, li1Il1I1, II1lliII) {
+        return liIlilII(l1lll11, li1Il1I1, II1lliII);
+      },
+      "dhClv": "3.2.1.1",
+      "kHkxH": function (lIIiI11, I1ilii11) {
+        return lIIiI11(I1ilii11);
+      }
+    };
+  if ($["runEnd"]) return {
+    "runEnd": !![]
+  };
+  const l1l1Illi = decodeURIComponent(common[lI1IlIil(643, "2cM3")](lI1IilI, "pt_pin")),
+    Ii1il1Il = lI1IlIil(636, "K8[[") + iil1l1I1 + "\u3011" + common[lI1IlIil(396, "uLOZ")](l1l1Illi, {
+      "printWidth": 6
+    }) + "\uFF1A",
+    l1IIiII = notify[lI1IlIil(558, "Mn3#")](iil1l1I1, l1l1Illi);
+  if (II11i111[lI1IlIil(270, "jQrx")](pinFilter["length"], 0) && (pinFilter[lI1IlIil(671, "eCry")](l1l1Illi) || pinFilter[lI1IlIil(700, "a!!@")](encodeURIComponent(l1l1Illi)))) {
+    l1IIiII[lI1IlIil(316, "Q)[D")](lI1IlIil(611, "RTlN")), console[lI1IlIil(633, "Q)[D")](l1IIiII["getInlineContent"]()), $["needRemoveCookieIndex"][lI1IlIil(742, "[AqX")](iil1l1I1);
+    return;
+  }
+  const lIllil1 = await common[lI1IlIil(530, "JDV2")](lI1IilI);
+  if (!lIllil1 && II11i111[lI1IlIil(303, "bcV[")](typeof lIllil1, II11i111[lI1IlIil(318, "Rxn7")])) {
+    console["log"](Ii1il1Il + lI1IlIil(736, "4xN)")), $[lI1IlIil(582, "JIxP")][lI1IlIil(351, "JIxP")](iil1l1I1);
+    return;
+  }
+  let iIIiIII1 = ![],
+    i1Iiil11 = $[lI1IlIil(500, "bcV[")],
+    l1l1ilII,
+    lliIiI11,
+    I1i1ili1;
+  const iIi1lI1l = common[lI1IlIil(470, "BZC&")](l1l1Illi),
+    liI1l1i = II11i111[lI1IlIil(379, "uLOZ")],
+    lI1i11I = llilIli1 => llilIli1["split"]("")["reduce"]((IllI1iil, iiliilI1) => {
+      const IilIll1I = lI1IlIil,
+        i11IIil1 = {
+          "Ovkqq": IilIll1I(383, "dQNV")
+        };
+      if (II11i111["HKfNS"]("HZSwc", II11i111[IilIll1I(258, "Mn3#")])) return IllI1iil = II11i111[IilIll1I(394, "n6t%")]((IllI1iil << 5) - IllI1iil, iiliilI1["charCodeAt"](0)), IllI1iil & IllI1iil;else ilIiI1lI[IilIll1I(633, "Q)[D")](i11IIil1["Ovkqq"]);
+    }, 0),
+    llill = [...new Set(redshareId)];
+  II11i111[lI1IlIil(254, "RTlN")](llill[lI1IlIil(451, "bcV[")], 0) ? II11i111[lI1IlIil(425, "R5aw")](II11i111[lI1IlIil(677, "POES")], II11i111[lI1IlIil(505, "JIxP")]) ? liIli1iI[lI1IlIil(640, "Ah)J")](lI1IlIil(412, "zIZ7") + liiilII) : l1l1ilII = llill[Math["floor"](Math[lI1IlIil(406, "U]@[")]() * llill["length"])] : II11i111["EyZVI"](lI1IlIil(585, "bcV["), II11i111[lI1IlIil(517, "l#Y%")]) ? l1l1ilII = "" : iilllllI[lI1IlIil(237, "dQNV")] = lll1II1I[II11i111[lI1IlIil(755, "U]@[")](iii1iIli, 0, i1lI1IIl["length"])];
+  Referer = II11i111[lI1IlIil(690, "jLh4")];
+  for (let II1liII1 = 0; II11i111[lI1IlIil(336, "l@O[")](II1liII1, maxdraw); II1liII1++) {
+    if (II11i111[lI1IlIil(523, "uLOZ")](II11i111[lI1IlIil(271, "U]@[")], "wLEFH")) iI1lIII1 = "";else {
+      let iIIl11l = IiiIillI();
+      lliIiI11 = lI1IlIil(250, "bcV[") + iIIl11l[lI1IlIil(595, "Q)[D")] + lI1IlIil(748, "(i2(") + iIIl11l[lI1IlIil(648, "Ah)J")] + lI1IlIil(646, "Mn3#") + iIIl11l["jdc"] + lI1IlIil(539, "99M^") + iIIl11l["jdv"] + ";shshshfpa=" + iIIl11l[lI1IlIil(387, "IB(Z")] + lI1IlIil(231, "bcV[") + iIIl11l["mba_sid"] + lI1IlIil(546, "r4dy") + iIIl11l[lI1IlIil(621, "IB(Z")] + lI1IlIil(562, "bFZL") + iIIl11l[lI1IlIil(337, "yVhj")] + lI1IlIil(631, "#ilO") + iIIl11l[lI1IlIil(297, "R]Vr")] + ";", ss = await II11i111[lI1IlIil(497, "4xN)")](llIII1i, $["red618_url"]);
+      if (ss) {
+        let lliIl1il = ss?.["match"](/(https:\/\/u\.jd\.com\/jda[^']+)/);
+        lliIl1il ? ($["hrl"] = lliIl1il[1], await II11i111[lI1IlIil(493, "a!!@")](iliIlilI, lliIl1il[1])) : II11i111[lI1IlIil(707, "wP(Z")](II11i111["QwSIa"], lI1IlIil(446, "bcV[")) ? IIlil1il[lI1IlIil(361, "4xN)")](lI1IlIil(559, "dQNV") + i111liI + lI1IlIil(526, "syjB") + (llIIiilI[lI1IlIil(356, "5&Be")] || l1i1i1lI)) : (console[lI1IlIil(434, "syjB")](Ii1il1Il + lI1IlIil(404, "zIZ7")), iIIiIII1 = !![]);
+      } else {
+        if (II11i111["GnLZA"](II11i111["YjAgM"], lI1IlIil(490, "[AqX"))) {
+          iIIllIIi["fix"](II11i111[lI1IlIil(486, "zIZ7")]), IilIlI1I[lI1IlIil(619, "bFZL")](IliiI1Ii[lI1IlIil(414, "uLOZ")]()), IllIIIi["needRemoveCookieIndex"][lI1IlIil(266, "Q)[D")](i11liiIi);
+          return;
+        } else console["log"](Ii1il1Il + lI1IlIil(637, ")5@u")), iIIiIII1 = !![];
+      }
+      let l1IiI1iI = await II11i111[lI1IlIil(751, "JDV2")](jsTk, iIi1lI1l, lI1IlIil(262, "1#OP") + actId + lI1IlIil(244, "[O4@"), {
+        "bizId": lI1IlIil(502, "JeZ2"),
+        "v": II11i111[lI1IlIil(242, "bFZL")],
+        "qs": "stath=20&navh=44&tttparams=MiCEMF2eyJnTGF0IjoiMjkuNjA2OTI3IiwidW5fYXJlYSI6IjRfNTA5NTBfNTA5NTdfMCIsImRMYXQiOiIiLCJwcnN0YXRlIjoiMCIsImFkZHJlc3NJZCI6IjYyNzEwMzg4MDYiLCJsYXQiOiIiLCJwb3NMYXQiOiIyOS42MDY5MjciLCJwb3NMbmciOiIxMDYuNTY2NzEyIiwiZ3BzX2FyZWEiOiIwXzBfMF8wIiwibG5nIjoiIiwidWVtcHMiOiIwLTAtMCIsImdMbmciOiIxMDYuNTY2NzEyIiwibW9kZWwiOiJpUGhvbmU4LDIiLCJkTG5nIjoiIn70%3D&utm_source=kong&utm_term=626e4b23b76a4568aa45f7b551b5c4ef&d=kizfKM1&useNewLoad=1&uabt=384_3901_1_0-385_3902_1_0&utm_medium=jingfen&cu"
+      });
+      I1i1ili1 = l1IiI1iI["jsToken"], await II11i111[lI1IlIil(574, "EHJB")](lilillIi, lI1IlIil(658, "K8[["));
+      if (iIIiIII1 || $[lI1IlIil(553, "Rxn7")]) break;
+      if ($["waitTime"]) await $[lI1IlIil(647, "#ilO")]($[lI1IlIil(408, "PXqF")]);
+    }
+  }
+  if ($[lI1IlIil(346, "dOzb")]) return {
+    "runEnd": !![]
+  };
+  if ($[lI1IlIil(597, "dQNV")]) await $[lI1IlIil(687, "4xN)")]($[lI1IlIil(747, "#ilO")]);
+  async function llIII1i(i1iI1iii) {
+    const iIiIIl1l = lI1IlIil,
+      IIillIIi = await common[iIiIIl1l(622, "uLOZ")]({
+        "url": i1iI1iii,
+        "method": II11i111[iIiIIl1l(263, "syjB")],
+        "headers": {
+          "Cookie": lI1IilI,
+          "User-Agent": liI1l1i
+        },
+        "proxy": null,
+        "debug": ![],
+        "timeout": 30000
+      }),
+      liiilliI = IIillIIi["data"];
+    let iIliiill = IIillIIi && IIillIIi[iIiIIl1l(583, "EavT")] && (IIillIIi[II11i111[iIiIIl1l(430, "U]@[")]][iIiIIl1l(588, "IoAu")] || IIillIIi[II11i111["zgfZW"]][II11i111["hycXG"]] || "") || "";
+    if (iIliiill) for (let i1lI1i1I of iIliiill) {
+      if (II11i111[iIiIIl1l(620, "5&Be")](II11i111[iIiIIl1l(578, "bcV[")], II11i111[iIiIIl1l(308, "w7rH")])) {
+        let IlIII1Ii = i1lI1i1I[iIiIIl1l(350, "wP(Z")](";")[0]["trim"]();
+        if (IlIII1Ii[iIiIIl1l(467, "(i2(")]("=")[1]) {
+          if (II11i111[iIiIIl1l(427, "dOzb")](II11i111[iIiIIl1l(593, "jLh4")], II11i111[iIiIIl1l(520, "w7rH")])) lliIi1li[iIiIIl1l(525, "K8[[")](iIiIIl1l(410, "bFZL") + Il11i1iI[iIiIIl1l(605, "dQNV")](/：/g, " \u279C "));else {
+            if (II11i111["RwyEq"](lliIiI11[iIiIIl1l(750, "Si%b")](IlIII1Ii["split"]("=")[1]), -1)) lliIiI11 += IlIII1Ii["replace"](/ /g, "") + "; ";
+          }
+        }
+      } else l11i1ll = {
+        ...iiIl1i11,
+        ...iI1i1lli
+      };
+    }
+    return liiilliI;
+  }
+  async function iliIlilI(iii1iII1) {
+    const llii1ii = lI1IlIil,
+      ii1iIIil = {
+        "qZOMa": II11i111["QhZYp"]
+      },
+      lI11lili = await common[llii1ii(233, "bFZL")]({
+        "url": II11i111[llii1ii(238, ")5@u")](iii1iII1, llii1ii(514, "5&Be") + II11i111[llii1ii(338, "EavT")](lI1i11I, liI1l1i)),
+        "maxRedirects": 0,
+        "method": llii1ii(683, "jLh4"),
+        "headers": {
+          "Cookie": II11i111[llii1ii(601, "U]@[")](lliIiI11 + " ", lI1IilI),
+          "User-Agent": liI1l1i,
+          "Referer": $[llii1ii(565, "Mn3#")]
+        },
+        "proxy": null,
+        "debug": ![],
+        "timeout": 30000
+      });
+    let II111I1i = lI11lili["headers"];
+    if (II111I1i?.["location"]) {
+      let lII1 = II111I1i[llii1ii(462, "zIZ7")];
+      actId = lII1[llii1ii(682, "uLOZ")](/\/active\/(\w+)\/index/)?.[1], Referer = lII1;
+    }
+    let ill1l11l = lI11lili && lI11lili[llii1ii(469, "bFZL")] && (lI11lili[II11i111["zgfZW"]][II11i111[llii1ii(549, "EHJB")]] || lI11lili[II11i111["zgfZW"]][llii1ii(673, "[AqX")] || "") || "";
+    if (ill1l11l) for (let Il1III1i of ill1l11l) {
+      if (II11i111["HKfNS"](II11i111["vgjKs"], II11i111[llii1ii(499, "99M^")])) i1I1iiii[llii1ii(741, "dOzb")](ii1iIIil["qZOMa"]), iIIi1ilI[llii1ii(253, "1#OP")]("\u4F60\u586B\u5199\u7684\u94FE\u63A5\u4E3A\uFF1A" + l11Il1i), llIlIlIl[llii1ii(516, "R5aw")]("\u8BF7\u5C3D\u5FEB\u4FEE\u6B63\uFF0C\u53EF\u5C1D\u8BD5\u91CD\u542F\u5BB9\u5668\uFF0C\u9ED8\u8BA4\u7EE7\u7EED\u8FD0\u884C"), iiliIli = "";else {
+        let IlI1III1 = Il1III1i[llii1ii(339, "1#OP")](";")[0][llii1ii(706, "l#Y%")]();
+        if (IlI1III1[llii1ii(668, "RTlN")]("=")[1]) {
+          if (lliIiI11["indexOf"](IlI1III1[llii1ii(294, ")5@u")]("=")[1]) == -1) lliIiI11 += II11i111[llii1ii(418, "l@O[")](IlI1III1["replace"](/ /g, ""), "; ");
+        }
+      }
+    }
+    return lliIiI11;
+  }
+  function IiiIillI() {
+    const iliI1ii1 = lI1IlIil,
+      il1iIl11 = {
+        "qwPNY": iliI1ii1(618, "BZC&")
+      };
+    if (II11i111[iliI1ii1(388, "[AqX")](II11i111["AuKeW"], II11i111[iliI1ii1(718, "4xN)")])) ll1ll11i[iliI1ii1(306, "PXqF")](l1i11i1l[iliI1ii1(341, "4xN)")], il1iIl11["qwPNY"]), li1i1l1l[iliI1ii1(675, "ZqFO")](1);else {
+      let iiIIl1ll = II11i111[iliI1ii1(445, "RTlN")],
+        iiIiIll1 = "1",
+        l11iI1 = parseInt(Date[iliI1ii1(561, "l@O[")]() / 1000)[iliI1ii1(485, "ZqFO")](),
+        liIiilIi = II11i111[iliI1ii1(699, "BZC&")](l11iI1, II11i111["ueljh"](parseInt, II11i111[iliI1ii1(367, "a!!@")](2147483647, Math["random"]()))["toString"]()),
+        lli1lIiI = [iiIIl1ll, liIiilIi, l11iI1, l11iI1, l11iI1, iiIiIll1][iliI1ii1(693, "JIxP")]("."),
+        Iill11l = [iiIIl1ll, iiIiIll1, [liIiilIi, iiIiIll1][iliI1ii1(323, "2cM3")]("|"), l11iI1]["join"]("."),
+        lI1IllII = iiIIl1ll,
+        i11IliI1 = [iiIIl1ll, II11i111["XZyOe"], "-", II11i111["hRDYJ"], "-", Date[iliI1ii1(594, "R]Vr")]()["toString"]()][iliI1ii1(452, "PXqF")]("|");
+      i11IliI1 = encodeURIComponent(i11IliI1);
+      let lIII1II = II11i111[iliI1ii1(653, "99M^")](II11i111[iliI1ii1(281, "U]@[")](l11l1Ill, II11i111[iliI1ii1(638, "r4dy")]) + "-", l11iI1),
+        I1lIIIi = iliI1ii1(342, "l#Y%"),
+        lIIiiIll = [I1lIIIi, iiIiIll1]["join"]("."),
+        iIllliII = [liIiilIi, I1lIIIi, Date[iliI1ii1(423, "l#Y%")]()[iliI1ii1(304, "w7rH")]()][iliI1ii1(552, "a!!@")]("."),
+        lIll1il1 = II11i111["mvjjX"](Math[iliI1ii1(723, "ZqFO")](II11i111[iliI1ii1(725, "a!!@")](5, Math[iliI1ii1(335, ")5@u")]())) * 2, 1)[iliI1ii1(602, "syjB")](),
+        i1iIIIII = common[iliI1ii1(447, "r4dy")](32, II11i111[iliI1ii1(688, "JIxP")]) + iliI1ii1(456, "uLOZ");
+      return {
+        "jda": lli1lIiI,
+        "jdb": Iill11l,
+        "jdc": lI1IllII,
+        "jdv": i11IliI1,
+        "shshshfpa": lIII1II,
+        "mba_sid": lIIiiIll,
+        "mba_muid": iIllliII,
+        "pre_seq": lIll1il1,
+        "pre_session": i1iIIIII
+      };
+    }
+  }
+  function l11l1Ill(illIii1l, iiilIi1I = lI1IlIil(759, "EavT")) {
+    const lIIlI11 = lI1IlIil;
+    let ll1iiI1 = "";
+    for (let lI11Iili of illIii1l) {
+      if (II11i111["LZran"](II11i111[lIIlI11(591, "1#OP")], II11i111[lIIlI11(615, "R]Vr")])) iIIIIii1 = {
+        ...IlIiili,
+        ...l1IIil
+      };else {
+        if (II11i111[lIIlI11(642, "eCry")](lI11Iili, "x")) II11i111[lIIlI11(240, "U]@[")](II11i111["vSQfg"], II11i111[lIIlI11(282, "jQrx")]) ? ll1iiI1 += iiilIi1I[lIIlI11(632, "zIZ7")](Math["floor"](Math[lIIlI11(513, "Ah)J")]() * iiilIi1I[lIIlI11(353, "[AqX")])) : (lI1IIi1l = IliIiil["filter"]((lIllillI, lll11I1i) => !illil1Ii["needRemoveCookieIndex"][lIIlI11(355, "U]@[")](lll11I1i + 1)), IIii1i1i[lIIlI11(527, "5&Be")] = []);else II11i111[lIIlI11(362, "4xN)")](lI11Iili, "X") ? II11i111["EfOda"](II11i111[lIIlI11(290, "uLOZ")], "NYpoS") ? ll1iiI1 += iiilIi1I[lIIlI11(326, "RTlN")](Math[lIIlI11(340, "jLh4")](Math[lIIlI11(402, "syjB")]() * iiilIi1I[lIIlI11(534, "IB(Z")]))[lIIlI11(536, ")5@u")]() : ii1IIll = I1I11l1I[liIl11ii["floor"](II11i111["PCkRI"](lllIiIl1["random"](), I11lll11[lIIlI11(584, "JeZ2")]))] : ll1iiI1 += lI11Iili;
+      }
+    }
+    return ll1iiI1;
+  }
+  async function IIiIIl11(iIIll1lI, iIIIIil) {
+    const lil1l1l1 = lI1IlIil,
+      Ilil1iII = {
+        "YKhkY": function (lI11lil1, ll1Iliii) {
+          const llI11l = iII1iiI;
+          return II11i111[llI11l(319, "a!!@")](lI11lil1, ll1Iliii);
+        },
+        "tapeD": function (lilli111, lIiI1ili) {
+          const IlII11lI = iII1iiI;
+          return II11i111[IlII11lI(670, "jQrx")](lilli111, lIiI1ili);
+        }
+      };
+    try {
+      if (II11i111[lil1l1l1(471, "l@O[")](II11i111["jUEHP"], II11i111[lil1l1l1(678, "syjB")])) {
+        let lIIiIl1I = il11liIi[lil1l1l1(440, "R]Vr")](";")[0]["trim"]();
+        if (lIIiIl1I[lil1l1l1(607, "[O4@")]("=")[1]) {
+          if (II11i111["iBXkf"](IiilliII[lil1l1l1(666, "#ilO")](lIIiIl1I[lil1l1l1(665, "bFZL")]("=")[1]), -1)) l11lIili += II11i111["XqfST"](lIIiIl1I[lil1l1l1(441, "Mn3#")](/ /g, ""), "; ");
+        }
+      } else switch (iIIll1lI) {
+        case lil1l1l1(369, "PXqF"):
+          if (iIIIIil[lil1l1l1(272, "2cM3")] == 0) {
+            if (II11i111[lil1l1l1(295, "zIZ7")](II11i111[lil1l1l1(555, "dQNV")], II11i111[lil1l1l1(385, "4xN)")])) IIIi1iil[lil1l1l1(544, "wP(Z")] = !![];else {
+              let I1IlIIIl = iIIIIil?.[lil1l1l1(732, "jQrx")]?.[lil1l1l1(606, "zIZ7")] || [],
+                iiilII1I = [];
+              for (let I1liIlli of I1IlIIIl) {
+                let iIIilI1i = "";
+                switch (I1liIlli[lil1l1l1(417, "eCry")]) {
+                  case 1:
+                  case 19:
+                    {
+                      iIIilI1i = prize_map[I1liIlli[lil1l1l1(503, "a!!@")]] + (I1liIlli[lil1l1l1(686, "v^Ew")] + "\u5143");
+                      break;
+                    }
+                  case 3:
+                  case 17:
+                    {
+                      iIIilI1i = II11i111[lil1l1l1(669, "eCry")](prize_map[I1liIlli[lil1l1l1(608, "l@O[")]], I1liIlli[lil1l1l1(489, "99M^")]);
+                      let I1liiil1 = I1liIlli[lil1l1l1(735, "JeZ2")] > 0 ? "\u6EE1" + I1liIlli[lil1l1l1(245, "EavT")] : II11i111[lil1l1l1(347, "K8[[")];
+                      iIIilI1i += "(" + I1liiil1 + "\u51CF" + I1liIlli["discount"] + ")";
+                      break;
+                    }
+                  case 6:
+                    {
+                      iIIilI1i = II11i111["czOOG"](prize_map[I1liIlli["type"]], I1liIlli[lil1l1l1(296, "wP(Z")]);
+                      let iIil1l = II11i111[lil1l1l1(529, "(i2(")](I1liIlli["quota"], 0) ? "\u6EE1" + I1liIlli["quota"] : lil1l1l1(411, "Si%b");
+                      iIIilI1i += "(" + iIil1l + "\u6253" + I1liIlli[lil1l1l1(437, "zIZ7")] + "\u6298)";
+                      break;
+                    }
+                  default:
+                    {
+                      if (II11i111["RULNB"](II11i111["FBWvF"], II11i111[lil1l1l1(580, "JIxP")])) {
+                        iIIilI1i = prize_map[I1liIlli[lil1l1l1(624, "U]@[")] || II11i111[lil1l1l1(575, "4xN)")]] || "[\u672A\u77E5\u7C7B\u578B" + I1liIlli["type"] + "]", console[lil1l1l1(708, "l#Y%")]("" + Ii1il1Il + JSON[lil1l1l1(433, "[O4@")](I1liIlli));
+                        break;
+                      } else IIIii11[lil1l1l1(563, "R]Vr")] = liilIIl1;
+                    }
+                }
+                iiilII1I[lil1l1l1(731, "JeZ2")](iIIilI1i);
+              }
+              console["log"]("" + Ii1il1Il + iiilII1I["join"](", "));
+              let IlilI1Ii = iiilII1I[lil1l1l1(309, "RTlN")](l1ilI1l1 => {
+                const l111III1 = lil1l1l1;
+                return l1ilI1l1["includes"](II11i111[l111III1(431, "eCry")]) || l1ilI1l1[l111III1(567, "R5aw")](II11i111["ySPNb"]) || l1ilI1l1[l111III1(334, "l@O[")](II11i111[l111III1(397, "R5aw")]) ? "" : l1ilI1l1;
+              })[lil1l1l1(680, "99M^")](Boolean);
+              l1IIiII[lil1l1l1(599, "99M^")](IlilI1Ii[lil1l1l1(729, "IB(Z")](", "));
+            }
+          } else {
+            console[lil1l1l1(248, "r4dy")](Ii1il1Il + lil1l1l1(349, "dQNV"));
+            if (iIIIIil[lil1l1l1(464, "Si%b")]?.[lil1l1l1(269, "RTlN")](II11i111["vkEqz"])) {
+              if (II11i111[lil1l1l1(360, "uLOZ")](lil1l1l1(380, "a!!@"), II11i111["HTgNh"])) iIIiIII1 = !![];else {
+                if (Ilil1iII[lil1l1l1(454, "EHJB")](l1IIiliI, "x")) IIi1lIll += lllIl1I1["charAt"](IIi1li1I["floor"](Ilil1iII["tapeD"](lI11i1Ii[lil1l1l1(564, "RTlN")](), i1ilIlll[lil1l1l1(343, "r4dy")])));else Ii1lIllI == "X" ? I1ll1l1 += iI11llI1[lil1l1l1(540, "l#Y%")](IllIlIi1["floor"](Ilil1iII[lil1l1l1(711, "JDV2")](IIiilIlI["random"](), iIlIi1il[lil1l1l1(251, "v^Ew")])))["toUpperCase"]() : Il111lI += I1ili111;
+              }
+            }
+          }
+          break;
+      }
+    } catch (IiiiIl) {
+      console["log"](lil1l1l1(554, "K8[[") + iIIll1lI + lil1l1l1(429, "Q)[D") + (IiiiIl[lil1l1l1(256, "w7rH")] || IiiiIl));
+    }
+  }
+  async function lilillIi(i1iIilll) {
+    const lliiIiii = lI1IlIil,
+      ll1iiIli = {
+        "QEwSg": function (Il1i111I, ilII11I) {
+          return Il1i111I == ilII11I;
+        },
+        "Vombf": function (lI1Ii111, IIii11ll) {
+          const I11II1ii = iII1iiI;
+          return II11i111[I11II1ii(672, "EavT")](lI1Ii111, IIii11ll);
+        }
+      };
+    if ($["runEnd"]) return;
+    let liIilll1 = "",
+      IlIIilll = null,
+      lIli11lI = null,
+      Ilil1Il1 = II11i111[lliiIiii(630, "Si%b")],
+      lIIi1I1 = {},
+      I1ilii1i = {};
+    switch (i1iIilll) {
+      case lliiIiii(327, "POES"):
+        I1ilii1i = {
+          "appId": II11i111[lliiIiii(390, "[AqX")],
+          "functionId": II11i111[lliiIiii(458, "EHJB")],
+          "appid": II11i111["bkhly"],
+          "clientVersion": common["getLatestAppVersion"](),
+          "client": II11i111["wdLko"],
+          "body": {
+            "platform": 4,
+            "unionActId": unionActId,
+            "actId": actId,
+            "d": i1Iiil11,
+            "unionShareId": l1l1ilII,
+            "type": 1,
+            "qdPageId": II11i111[lliiIiii(650, "R]Vr")],
+            "mdClickId": II11i111["yVTWg"],
+            "actType": 2
+          },
+          "version": lliiIiii(368, "JeZ2"),
+          "ua": iIi1lI1l,
+          "t": !![]
+        }, lIIi1I1 = await H5st[lliiIiii(662, "JIxP")](I1ilii1i), liIilll1 = II11i111[lliiIiii(483, "dOzb")], IlIIilll = lIIi1I1["paramsData"];
+        break;
+      default:
+        console[lliiIiii(372, "uLOZ")](lliiIiii(274, "Q)[D") + i1iIilll);
+        return;
+    }
+    const iiIll1I = {
+      "x-api-eid-token": I1i1ili1,
+      "loginType": 2,
+      "_": II11i111[lliiIiii(692, "zIZ7")](new Date()[lliiIiii(291, "IB(Z")]() + II11i111[lliiIiii(644, "Mn3#")](II11i111["evhCU"](new Date()[lliiIiii(511, "dQNV")](), 60), 1000), II11i111[lliiIiii(654, "bFZL")](II11i111["PecHP"](II11i111[lliiIiii(421, "bFZL")](8, 60), 60), 1000)),
+      "d_model": lliiIiii(265, "#ilO"),
+      "osVersion": common["getLatestIOSVersion"]()
+    };
+    IlIIilll && (IlIIilll = {
+      ...IlIIilll,
+      ...iiIll1I
+    });
+    if (lIli11lI) {
+      if (lliiIiii(259, "BZC&") !== lliiIiii(639, "syjB")) {
+        iII111II[lliiIiii(661, "Si%b")](I1II11i1 + lliiIiii(230, "jQrx")), lI1l11li[lliiIiii(616, "v^Ew")]["push"](i11Iiii1);
+        return;
+      } else lIli11lI = {
+        ...lIli11lI,
+        ...iiIll1I
+      };
+    }
+    const IllIIlii = {
+      "url": liIilll1,
+      "method": Ilil1Il1,
+      "headers": {
+        "accept": II11i111[lliiIiii(439, "a!!@")],
+        "Accept-Language": II11i111[lliiIiii(625, "w7rH")],
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "Cookie": II11i111[lliiIiii(663, "l@O[")](lliIiI11 + " ", lI1IilI),
+        "X-Requested-With": II11i111["oDWEj"],
+        "Referer": Referer,
+        "Origin": II11i111[lliiIiii(241, "EHJB")],
+        "x-rp-client": II11i111["tQhKe"],
+        "User-Agent": iIi1lI1l
+      },
+      "params": lIli11lI,
+      "data": IlIIilll,
+      "timeout": 30000
+    };
+    II11i111["LZran"](Ilil1Il1, II11i111[lliiIiii(474, "Mn3#")]) && (delete IllIIlii[lliiIiii(537, "JeZ2")], delete IllIIlii["headers"][II11i111[lliiIiii(623, "(i2(")]]);
+    const ii1liiIi = 1;
+    let Il1l1l1 = 0,
+      llI1l1Ii = null,
+      IIll111I = ![];
+    while (II11i111[lliiIiii(286, "2cM3")](Il1l1l1, ii1liiIi)) {
+      if (II11i111["QCrbB"](II11i111[lliiIiii(651, "[AqX")], II11i111[lliiIiii(753, "eCry")])) for (let I11IliI1 of lI1ii1Ii) {
+        let IllIIIl1 = I11IliI1[lliiIiii(556, "U]@[")](";")[0][lliiIiii(667, "PXqF")]();
+        if (IllIIIl1["split"]("=")[1]) {
+          if (ll1iiIli[lliiIiii(378, "l#Y%")](lIIiIii["indexOf"](IllIIIl1[lliiIiii(543, "Si%b")]("=")[1]), -1)) i11i11I += ll1iiIli["Vombf"](IllIIIl1[lliiIiii(352, "yVhj")](/ /g, ""), "; ");
+        }
+      } else {
+        const II1li1ii = await common["request"](IllIIlii);
+        if (!II1li1ii[lliiIiii(359, "[O4@")]) {
+          if (II11i111[lliiIiii(425, "R5aw")](lliiIiii(488, "dQNV"), II11i111[lliiIiii(229, "IoAu")])) {
+            llI1l1Ii = "\uD83D\uDEAB " + i1iIilll + lliiIiii(598, "[O4@") + II1li1ii[lliiIiii(398, "RTlN")], Il1l1l1++;
+            continue;
+          } else ii1iiIlI[lliiIiii(361, "4xN)")](II11i111["WDrST"]);
+        }
+        if (!II1li1ii["data"]) {
+          llI1l1Ii = lliiIiii(533, "dOzb") + i1iIilll + lliiIiii(312, ")5@u"), Il1l1l1++;
+          continue;
+        }
+        II11i111["PnJGQ"](IIiIIl11, i1iIilll, II1li1ii[lliiIiii(289, "RTlN")]), IIll111I = ![];
+        break;
+      }
+    }
+    Il1l1l1 >= ii1liiIi && (console["log"](llI1l1Ii), IIll111I && ($[lliiIiii(722, "syjB")] = !![]));
+  }
+}
+async function getAuthorCodeList(li1IiI1I) {
+  const iIil1lI1 = l1iIl111,
+    IIIiiIIi = await common[iIil1lI1(652, "jQrx")]({
+      "url": li1IiI1I,
+      "method": iIil1lI1(413, "5&Be"),
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      },
+      "proxy": null,
+      "debug": ![],
+      "timeout": 30000
+    }),
+    Il1iIill = IIIiiIIi[iIil1lI1(569, "jLh4")];
+  return Il1iIill;
+}
+function random(ilIl1ilI, IiiIIl1l) {
+  const IIl11lll = l1iIl111,
+    llI1I1 = {
+      "KuOyC": function (iIIIIi1i, Il1l1II) {
+        return iIIIIi1i * Il1l1II;
+      },
+      "hLZZL": function (iIiIlI1l, iillllI) {
+        return iIiIlI1l - iillllI;
+      }
+    };
+  return Math[IIl11lll(384, "JDV2")](llI1I1[IIl11lll(285, "yVhj")](Math["random"](), llI1I1["hLZZL"](IiiIIl1l, ilIl1ilI))) + ilIl1ilI;
+}
+var version_ = "jsjiami.com.v7";
+// prettier-ignore
 function Env(t, e) {
+  "undefined" != typeof process && JSON.stringify(process.env).indexOf("GITHUB") > -1 && process.exit(0);
   class s {
     constructor(t) {
       this.env = t;
@@ -1724,9 +901,8 @@ function Env(t, e) {
         url: t
       } : t;
       let s = this.get;
-      "POST" === e && (s = this.post);
-      return new Promise((e, i) => {
-        s.call(this, t, (t, s, o) => {
+      return "POST" === e && (s = this.post), new Promise((e, i) => {
+        s.call(this, t, (t, s, r) => {
           t ? i(t) : e(s);
         });
       });
@@ -1740,52 +916,19 @@ function Env(t, e) {
   }
   return new class {
     constructor(t, e) {
-      this.logLevels = {
-        debug: 0,
-        info: 1,
-        warn: 2,
-        error: 3
-      };
-      this.logLevelPrefixs = {
-        debug: "[DEBUG] ",
-        info: "[INFO] ",
-        warn: "[WARN] ",
-        error: "[ERROR] "
-      };
-      this.logLevel = "info";
-      this.name = t;
-      this.http = new s(this);
-      this.data = null;
-      this.dataFile = "box.dat";
-      this.logs = [];
-      this.isMute = !1;
-      this.isNeedRewrite = !1;
-      this.logSeparator = "\n";
-      this.encoding = "utf-8";
-      this.startTime = new Date().getTime();
-      Object.assign(this, e);
-      this.log("", `🔔${this.name}, 开始!`);
-    }
-    getEnv() {
-      return "undefined" != typeof $environment && $environment["surge-version"] ? "Surge" : "undefined" != typeof $environment && $environment["stash-version"] ? "Stash" : "undefined" != typeof module && module.exports ? "Node.js" : "undefined" != typeof $task ? "Quantumult X" : "undefined" != typeof $loon ? "Loon" : "undefined" != typeof $rocket ? "Shadowrocket" : void 0;
+      this.name = t, this.http = new s(this), this.data = null, this.dataFile = "box.dat", this.logs = [], this.isMute = !1, this.isNeedRewrite = !1, this.logSeparator = "\n", this.startTime = new Date().getTime(), Object.assign(this, e), this.log("", `🔔${this.name}, 开始!`);
     }
     isNode() {
-      return "Node.js" === this.getEnv();
+      return "undefined" != typeof module && !!module.exports;
     }
     isQuanX() {
-      return "Quantumult X" === this.getEnv();
+      return "undefined" != typeof $task;
     }
     isSurge() {
-      return "Surge" === this.getEnv();
+      return "undefined" != typeof $httpClient && "undefined" == typeof $loon;
     }
     isLoon() {
-      return "Loon" === this.getEnv();
-    }
-    isShadowrocket() {
-      return "Shadowrocket" === this.getEnv();
-    }
-    isStash() {
-      return "Stash" === this.getEnv();
+      return "undefined" != typeof $loon;
     }
     toObj(t, e = null) {
       try {
@@ -1794,20 +937,19 @@ function Env(t, e) {
         return e;
       }
     }
-    toStr(t, e = null, ...s) {
+    toStr(t, e = null) {
       try {
-        return JSON.stringify(t, ...s);
+        return JSON.stringify(t);
       } catch {
         return e;
       }
     }
     getjson(t, e) {
       let s = e;
-      if (this.getdata(t)) {
-        try {
-          s = JSON.parse(this.getdata(t));
-        } catch {}
-      }
+      const i = this.getdata(t);
+      if (i) try {
+        s = JSON.parse(this.getdata(t));
+      } catch {}
       return s;
     }
     setjson(t, e) {
@@ -1828,40 +970,33 @@ function Env(t, e) {
       return new Promise(s => {
         let i = this.getdata("@chavy_boxjs_userCfgs.httpapi");
         i = i ? i.replace(/\n/g, "").trim() : i;
-        let o = this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");
-        o = o ? 1 * o : 20;
-        o = e && e.timeout ? e.timeout : o;
-        const [r, a] = i.split("@"),
+        let r = this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");
+        r = r ? 1 * r : 20, r = e && e.timeout ? e.timeout : r;
+        const [o, h] = i.split("@"),
           n = {
-            url: `http://${a}/v1/scripting/evaluate`,
+            url: `http://${h}/v1/scripting/evaluate`,
             body: {
               script_text: t,
               mock_type: "cron",
-              timeout: o
+              timeout: r
             },
             headers: {
-              "X-Key": r,
+              "X-Key": o,
               Accept: "*/*"
-            },
-            timeout: o
+            }
           };
         this.post(n, (t, e, i) => s(i));
       }).catch(t => this.logErr(t));
     }
     loaddata() {
-      if (!this.isNode()) {
-        return {};
-      }
+      if (!this.isNode()) return {};
       {
-        this.fs = this.fs ? this.fs : require("fs");
-        this.path = this.path ? this.path : require("path");
+        this.fs = this.fs ? this.fs : require("fs"), this.path = this.path ? this.path : require("path");
         const t = this.path.resolve(this.dataFile),
           e = this.path.resolve(process.cwd(), this.dataFile),
           s = this.fs.existsSync(t),
           i = !s && this.fs.existsSync(e);
-        if (!s && !i) {
-          return {};
-        }
+        if (!s && !i) return {};
         {
           const i = s ? t : e;
           try {
@@ -1874,40 +1009,34 @@ function Env(t, e) {
     }
     writedata() {
       if (this.isNode()) {
-        this.fs = this.fs ? this.fs : require("fs");
-        this.path = this.path ? this.path : require("path");
+        this.fs = this.fs ? this.fs : require("fs"), this.path = this.path ? this.path : require("path");
         const t = this.path.resolve(this.dataFile),
           e = this.path.resolve(process.cwd(), this.dataFile),
           s = this.fs.existsSync(t),
           i = !s && this.fs.existsSync(e),
-          o = JSON.stringify(this.data);
-        s ? this.fs.writeFileSync(t, o) : i ? this.fs.writeFileSync(e, o) : this.fs.writeFileSync(t, o);
+          r = JSON.stringify(this.data);
+        s ? this.fs.writeFileSync(t, r) : i ? this.fs.writeFileSync(e, r) : this.fs.writeFileSync(t, r);
       }
     }
     lodash_get(t, e, s) {
       const i = e.replace(/\[(\d+)\]/g, ".$1").split(".");
-      let o = t;
-      for (const t of i) if (o = Object(o)[t], void 0 === o) {
-        return s;
-      }
-      return o;
+      let r = t;
+      for (const t of i) if (r = Object(r)[t], void 0 === r) return s;
+      return r;
     }
     lodash_set(t, e, s) {
-      Object(t) !== t || (Array.isArray(e) || (e = e.toString().match(/[^.[\]]+/g) || []), e.slice(0, -1).reduce((t, s, i) => Object(t[s]) === t[s] ? t[s] : t[s] = Math.abs(e[i + 1]) >> 0 == +e[i + 1] ? [] : {}, t)[e[e.length - 1]] = s);
-      return t;
+      return Object(t) !== t ? t : (Array.isArray(e) || (e = e.toString().match(/[^.[\]]+/g) || []), e.slice(0, -1).reduce((t, s, i) => Object(t[s]) === t[s] ? t[s] : t[s] = Math.abs(e[i + 1]) >> 0 == +e[i + 1] ? [] : {}, t)[e[e.length - 1]] = s, t);
     }
     getdata(t) {
       let e = this.getval(t);
       if (/^@/.test(t)) {
         const [, s, i] = /^@(.*?)\.(.*?)$/.exec(t),
-          o = s ? this.getval(s) : "";
-        if (o) {
-          try {
-            const t = JSON.parse(o);
-            e = t ? this.lodash_get(t, i, "") : e;
-          } catch (t) {
-            e = "";
-          }
+          r = s ? this.getval(s) : "";
+        if (r) try {
+          const t = JSON.parse(r);
+          e = t ? this.lodash_get(t, i, "") : e;
+        } catch (t) {
+          e = "";
         }
       }
       return e;
@@ -1915,209 +1044,124 @@ function Env(t, e) {
     setdata(t, e) {
       let s = !1;
       if (/^@/.test(e)) {
-        const [, i, o] = /^@(.*?)\.(.*?)$/.exec(e),
-          r = this.getval(i),
-          a = i ? "null" === r ? null : r || "{}" : "{}";
+        const [, i, r] = /^@(.*?)\.(.*?)$/.exec(e),
+          o = this.getval(i),
+          h = i ? "null" === o ? null : o || "{}" : "{}";
         try {
-          const e = JSON.parse(a);
-          this.lodash_set(e, o, t);
-          s = this.setval(JSON.stringify(e), i);
+          const e = JSON.parse(h);
+          this.lodash_set(e, r, t), s = this.setval(JSON.stringify(e), i);
         } catch (e) {
-          const r = {};
-          this.lodash_set(r, o, t);
-          s = this.setval(JSON.stringify(r), i);
+          const o = {};
+          this.lodash_set(o, r, t), s = this.setval(JSON.stringify(o), i);
         }
-      } else {
-        s = this.setval(t, e);
-      }
+      } else s = this.setval(t, e);
       return s;
     }
     getval(t) {
-      switch (this.getEnv()) {
-        case "Surge":
-        case "Loon":
-        case "Stash":
-        case "Shadowrocket":
-          return $persistentStore.read(t);
-        case "Quantumult X":
-          return $prefs.valueForKey(t);
-        case "Node.js":
-          this.data = this.loaddata();
-          return this.data[t];
-        default:
-          return this.data && this.data[t] || null;
-      }
+      return this.isSurge() || this.isLoon() ? $persistentStore.read(t) : this.isQuanX() ? $prefs.valueForKey(t) : this.isNode() ? (this.data = this.loaddata(), this.data[t]) : this.data && this.data[t] || null;
     }
     setval(t, e) {
-      switch (this.getEnv()) {
-        case "Surge":
-        case "Loon":
-        case "Stash":
-        case "Shadowrocket":
-          return $persistentStore.write(t, e);
-        case "Quantumult X":
-          return $prefs.setValueForKey(t, e);
-        case "Node.js":
-          this.data = this.loaddata();
-          this.data[e] = t;
-          this.writedata();
-          return !0;
-        default:
-          return this.data && this.data[e] || null;
-      }
+      return this.isSurge() || this.isLoon() ? $persistentStore.write(t, e) : this.isQuanX() ? $prefs.setValueForKey(t, e) : this.isNode() ? (this.data = this.loaddata(), this.data[e] = t, this.writedata(), !0) : this.data && this.data[e] || null;
     }
     initGotEnv(t) {
-      this.got = this.got ? this.got : require("got");
-      this.cktough = this.cktough ? this.cktough : require("tough-cookie");
-      this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar();
-      t && (t.headers = t.headers ? t.headers : {}, t && (t.headers = t.headers ? t.headers : {}, void 0 === t.headers.cookie && void 0 === t.headers.Cookie && void 0 === t.cookieJar && (t.cookieJar = this.ckjar)));
+      this.got = this.got ? this.got : require("got"), this.cktough = this.cktough ? this.cktough : require("tough-cookie"), this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar(), t && (t.headers = t.headers ? t.headers : {}, void 0 === t.headers.Cookie && void 0 === t.cookieJar && (t.cookieJar = this.ckjar));
     }
     get(t, e = () => {}) {
-      switch (t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"], delete t.headers["content-type"], delete t.headers["content-length"]), t.params && (t.url += "?" + this.queryStr(t.params)), void 0 === t.followRedirect || t.followRedirect || ((this.isSurge() || this.isLoon()) && (t["auto-redirect"] = !1), this.isQuanX() && (t.opts ? t.opts.redirection = !1 : t.opts = {
-        redirection: !1
-      })), this.getEnv()) {
-        case "Surge":
-        case "Loon":
-        case "Stash":
-        case "Shadowrocket":
-        default:
-          this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
-            "X-Surge-Skip-Scripting": !1
-          }));
-          $httpClient.get(t, (t, s, i) => {
-            !t && s && (s.body = i, s.statusCode = s.status ? s.status : s.statusCode, s.status = s.statusCode);
-            e(t, s, i);
-          });
-          break;
-        case "Quantumult X":
-          this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, {
-            hints: !1
-          }));
-          $task.fetch(t).then(t => {
-            const {
-              statusCode: s,
-              statusCode: i,
-              headers: o,
-              body: r,
-              bodyBytes: a
-            } = t;
-            e(null, {
-              status: s,
-              statusCode: i,
-              headers: o,
-              body: r,
-              bodyBytes: a
-            }, r, a);
-          }, t => e(t && t.error || "UndefinedError"));
-          break;
-        case "Node.js":
-          let s = require("iconv-lite");
-          this.initGotEnv(t);
-          this.got(t).on("redirect", (t, e) => {
-            try {
-              if (t.headers["set-cookie"]) {
-                const s = t.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();
-                s && this.ckjar.setCookieSync(s, null);
-                e.cookieJar = this.ckjar;
-              }
-            } catch (t) {
-              this.logErr(t);
-            }
-          }).then(t => {
-            const {
-                statusCode: i,
-                statusCode: o,
-                headers: r,
-                rawBody: a
-              } = t,
-              n = s.decode(a, this.encoding);
-            e(null, {
-              status: i,
-              statusCode: o,
-              headers: r,
-              rawBody: a,
-              body: n
-            }, n);
-          }, t => {
-            const {
-              message: i,
-              response: o
-            } = t;
-            e(i, o, o && s.decode(o.rawBody, this.encoding));
-          });
-          break;
-      }
+      t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"]), this.isSurge() || this.isLoon() ? (this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
+        "X-Surge-Skip-Scripting": !1
+      })), $httpClient.get(t, (t, s, i) => {
+        !t && s && (s.body = i, s.statusCode = s.status), e(t, s, i);
+      })) : this.isQuanX() ? (this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, {
+        hints: !1
+      })), $task.fetch(t).then(t => {
+        const {
+          statusCode: s,
+          statusCode: i,
+          headers: r,
+          body: o
+        } = t;
+        e(null, {
+          status: s,
+          statusCode: i,
+          headers: r,
+          body: o
+        }, o);
+      }, t => e(t))) : this.isNode() && (this.initGotEnv(t), this.got(t).on("redirect", (t, e) => {
+        try {
+          if (t.headers["set-cookie"]) {
+            const s = t.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();
+            s && this.ckjar.setCookieSync(s, null), e.cookieJar = this.ckjar;
+          }
+        } catch (t) {
+          this.logErr(t);
+        }
+      }).then(t => {
+        const {
+          statusCode: s,
+          statusCode: i,
+          headers: r,
+          body: o
+        } = t;
+        e(null, {
+          status: s,
+          statusCode: i,
+          headers: r,
+          body: o
+        }, o);
+      }, t => {
+        const {
+          message: s,
+          response: i
+        } = t;
+        e(s, i, i && i.body);
+      }));
     }
     post(t, e = () => {}) {
-      const s = t.method ? t.method.toLocaleLowerCase() : "post";
-      switch (t.body && t.headers && !t.headers["Content-Type"] && !t.headers["content-type"] && (t.headers["content-type"] = "application/x-www-form-urlencoded"), t.headers && (delete t.headers["Content-Length"], delete t.headers["content-length"]), void 0 === t.followRedirect || t.followRedirect || ((this.isSurge() || this.isLoon()) && (t["auto-redirect"] = !1), this.isQuanX() && (t.opts ? t.opts.redirection = !1 : t.opts = {
-        redirection: !1
-      })), this.getEnv()) {
-        case "Surge":
-        case "Loon":
-        case "Stash":
-        case "Shadowrocket":
-        default:
-          this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
-            "X-Surge-Skip-Scripting": !1
-          }));
-          $httpClient[s](t, (t, s, i) => {
-            !t && s && (s.body = i, s.statusCode = s.status ? s.status : s.statusCode, s.status = s.statusCode);
-            e(t, s, i);
-          });
-          break;
-        case "Quantumult X":
-          t.method = s;
-          this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, {
-            hints: !1
-          }));
-          $task.fetch(t).then(t => {
-            const {
-              statusCode: s,
-              statusCode: i,
-              headers: o,
-              body: r,
-              bodyBytes: a
-            } = t;
-            e(null, {
-              status: s,
-              statusCode: i,
-              headers: o,
-              body: r,
-              bodyBytes: a
-            }, r, a);
-          }, t => e(t && t.error || "UndefinedError"));
-          break;
-        case "Node.js":
-          let i = require("iconv-lite");
-          this.initGotEnv(t);
+      if (t.body && t.headers && !t.headers["Content-Type"] && (t.headers["Content-Type"] = "application/x-www-form-urlencoded"), t.headers && delete t.headers["Content-Length"], this.isSurge() || this.isLoon()) this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
+        "X-Surge-Skip-Scripting": !1
+      })), $httpClient.post(t, (t, s, i) => {
+        !t && s && (s.body = i, s.statusCode = s.status), e(t, s, i);
+      });else if (this.isQuanX()) t.method = "POST", this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, {
+        hints: !1
+      })), $task.fetch(t).then(t => {
+        const {
+          statusCode: s,
+          statusCode: i,
+          headers: r,
+          body: o
+        } = t;
+        e(null, {
+          status: s,
+          statusCode: i,
+          headers: r,
+          body: o
+        }, o);
+      }, t => e(t));else if (this.isNode()) {
+        this.initGotEnv(t);
+        const {
+          url: s,
+          ...i
+        } = t;
+        this.got.post(s, i).then(t => {
           const {
-            url: o,
-            ...r
+            statusCode: s,
+            statusCode: i,
+            headers: r,
+            body: o
           } = t;
-          this.got[s](o, r).then(t => {
-            const {
-                statusCode: s,
-                statusCode: o,
-                headers: r,
-                rawBody: a
-              } = t,
-              n = i.decode(a, this.encoding);
-            e(null, {
-              status: s,
-              statusCode: o,
-              headers: r,
-              rawBody: a,
-              body: n
-            }, n);
-          }, t => {
-            const {
-              message: s,
-              response: o
-            } = t;
-            e(s, o, o && i.decode(o.rawBody, this.encoding));
-          });
-          break;
+          e(null, {
+            status: s,
+            statusCode: i,
+            headers: r,
+            body: o
+          }, o);
+        }, t => {
+          const {
+            message: s,
+            response: i
+          } = t;
+          e(s, i, i && i.body);
+        });
       }
     }
     time(t, e = null) {
@@ -2135,214 +1179,58 @@ function Env(t, e) {
       for (let e in i) new RegExp("(" + e + ")").test(t) && (t = t.replace(RegExp.$1, 1 == RegExp.$1.length ? i[e] : ("00" + i[e]).substr(("" + i[e]).length)));
       return t;
     }
-    queryStr(t) {
-      let e = "";
-      for (const s in t) {
-        let i = t[s];
-        null != i && "" !== i && ("object" == typeof i && (i = JSON.stringify(i)), e += `${s}=${i}&`);
-      }
-      e = e.substring(0, e.length - 1);
-      return e;
-    }
-    msg(e = t, s = "", i = "", o = {}) {
-      const r = t => {
-        const {
-          $open: e,
-          $copy: s,
-          $media: i,
-          $mediaMime: o
-        } = t;
-        switch (typeof t) {
-          case void 0:
-            return t;
-          case "string":
-            switch (this.getEnv()) {
-              case "Surge":
-              case "Stash":
-              default:
-                return {
-                  url: t
-                };
-              case "Loon":
-              case "Shadowrocket":
-                return t;
-              case "Quantumult X":
-                return {
-                  "open-url": t
-                };
-              case "Node.js":
-                return;
-            }
-          case "object":
-            switch (this.getEnv()) {
-              case "Surge":
-              case "Stash":
-              case "Shadowrocket":
-              default:
-                {
-                  const r = {};
-                  let a = t.openUrl || t.url || t["open-url"] || e;
-                  a && Object.assign(r, {
-                    action: "open-url",
-                    url: a
-                  });
-                  let n = t["update-pasteboard"] || t.updatePasteboard || s;
-                  if (n && Object.assign(r, {
-                    action: "clipboard",
-                    text: n
-                  }), i) {
-                    let t, e, s;
-                    if (i.startsWith("http")) {
-                      t = i;
-                    } else {
-                      if (i.startsWith("data:")) {
-                        const [t] = i.split(";"),
-                          [, o] = i.split(",");
-                        e = o;
-                        s = t.replace("data:", "");
-                      } else {
-                        e = i;
-                        s = (t => {
-                          const e = {
-                            JVBERi0: "application/pdf",
-                            R0lGODdh: "image/gif",
-                            R0lGODlh: "image/gif",
-                            iVBORw0KGgo: "image/png",
-                            "/9j/": "image/jpg"
-                          };
-                          for (var s in e) if (0 === t.indexOf(s)) {
-                            return e[s];
-                          }
-                          return null;
-                        })(i);
-                      }
-                    }
-                    Object.assign(r, {
-                      "media-url": t,
-                      "media-base64": e,
-                      "media-base64-mime": o ?? s
-                    });
-                  }
-                  Object.assign(r, {
-                    "auto-dismiss": t["auto-dismiss"],
-                    sound: t.sound
-                  });
-                  return r;
-                }
-              case "Loon":
-                {
-                  const s = {};
-                  let o = t.openUrl || t.url || t["open-url"] || e;
-                  o && Object.assign(s, {
-                    openUrl: o
-                  });
-                  let r = t.mediaUrl || t["media-url"];
-                  i?.startsWith("http") && (r = i);
-                  r && Object.assign(s, {
-                    mediaUrl: r
-                  });
-                  console.log(JSON.stringify(s));
-                  return s;
-                }
-              case "Quantumult X":
-                {
-                  const o = {};
-                  let r = t["open-url"] || t.url || t.openUrl || e;
-                  r && Object.assign(o, {
-                    "open-url": r
-                  });
-                  let a = t["media-url"] || t.mediaUrl;
-                  i?.startsWith("http") && (a = i);
-                  a && Object.assign(o, {
-                    "media-url": a
-                  });
-                  let n = t["update-pasteboard"] || t.updatePasteboard || s;
-                  n && Object.assign(o, {
-                    "update-pasteboard": n
-                  });
-                  console.log(JSON.stringify(o));
-                  return o;
-                }
-              case "Node.js":
-                return;
-            }
-          default:
-            return;
+    msg(e = t, s = "", i = "", r) {
+      const o = t => {
+        if (!t) return t;
+        if ("string" == typeof t) return this.isLoon() ? t : this.isQuanX() ? {
+          "open-url": t
+        } : this.isSurge() ? {
+          url: t
+        } : void 0;
+        if ("object" == typeof t) {
+          if (this.isLoon()) {
+            let e = t.openUrl || t.url || t["open-url"],
+              s = t.mediaUrl || t["media-url"];
+            return {
+              openUrl: e,
+              mediaUrl: s
+            };
+          }
+          if (this.isQuanX()) {
+            let e = t["open-url"] || t.url || t.openUrl,
+              s = t["media-url"] || t.mediaUrl;
+            return {
+              "open-url": e,
+              "media-url": s
+            };
+          }
+          if (this.isSurge()) {
+            let e = t.url || t.openUrl || t["open-url"];
+            return {
+              url: e
+            };
+          }
         }
       };
-      if (!this.isMute) {
-        switch (this.getEnv()) {
-          case "Surge":
-          case "Loon":
-          case "Stash":
-          case "Shadowrocket":
-          default:
-            $notification.post(e, s, i, r(o));
-            break;
-          case "Quantumult X":
-            $notify(e, s, i, r(o));
-            break;
-          case "Node.js":
-            break;
-        }
+      if (this.isMute || (this.isSurge() || this.isLoon() ? $notification.post(e, s, i, o(r)) : this.isQuanX() && $notify(e, s, i, o(r))), !this.isMuteLog) {
+        let t = ["", "==============\uD83D\uDCE3\u7CFB\u7EDF\u901A\u77E5\uD83D\uDCE3=============="];
+        t.push(e), s && t.push(s), i && t.push(i), console.log(t.join("\n")), this.logs = this.logs.concat(t);
       }
-      if (!this.isMuteLog) {
-        let t = ["", "==============📣系统通知📣=============="];
-        t.push(e);
-        s && t.push(s);
-        i && t.push(i);
-        console.log(t.join("\n"));
-        this.logs = this.logs.concat(t);
-      }
-    }
-    debug(...t) {
-      this.logLevels[this.logLevel] <= this.logLevels.debug && (t.length > 0 && (this.logs = [...this.logs, ...t]), console.log(`${this.logLevelPrefixs.debug}${t.map(t => t ?? String(t)).join(this.logSeparator)}`));
-    }
-    info(...t) {
-      this.logLevels[this.logLevel] <= this.logLevels.info && (t.length > 0 && (this.logs = [...this.logs, ...t]), console.log(`${this.logLevelPrefixs.info}${t.map(t => t ?? String(t)).join(this.logSeparator)}`));
-    }
-    warn(...t) {
-      this.logLevels[this.logLevel] <= this.logLevels.warn && (t.length > 0 && (this.logs = [...this.logs, ...t]), console.log(`${this.logLevelPrefixs.warn}${t.map(t => t ?? String(t)).join(this.logSeparator)}`));
-    }
-    error(...t) {
-      this.logLevels[this.logLevel] <= this.logLevels.error && (t.length > 0 && (this.logs = [...this.logs, ...t]), console.log(`${this.logLevelPrefixs.error}${t.map(t => t ?? String(t)).join(this.logSeparator)}`));
     }
     log(...t) {
-      t.length > 0 && (this.logs = [...this.logs, ...t]);
-      console.log(t.map(t => t ?? String(t)).join(this.logSeparator));
+      t.length > 0 && (this.logs = [...this.logs, ...t]), console.log(t.join(this.logSeparator));
     }
     logErr(t, e) {
-      switch (this.getEnv()) {
-        case "Surge":
-        case "Loon":
-        case "Stash":
-        case "Shadowrocket":
-        case "Quantumult X":
-        default:
-          this.log("", `❗️${this.name}, 错误!`, e, t);
-          break;
-        case "Node.js":
-          this.log("", `❗️${this.name}, 错误!`, e, void 0 !== t.message ? t.message : t, t.stack);
-          break;
-      }
+      const s = !this.isSurge() && !this.isQuanX() && !this.isLoon();
+      s ? this.log("", `❗️${this.name}, 错误!`, t.stack) : this.log("", `❗️${this.name}, 错误!`, t);
     }
     wait(t) {
       return new Promise(e => setTimeout(e, t));
     }
     done(t = {}) {
-      const e = (new Date().getTime() - this.startTime) / 1000;
-      switch (this.log("", `🔔${this.name}, 结束! 🕛 ${e} 秒`), this.log(), this.getEnv()) {
-        case "Surge":
-        case "Loon":
-        case "Stash":
-        case "Shadowrocket":
-        case "Quantumult X":
-        default:
-          $done(t);
-          break;
-        case "Node.js":
-          process.exit(1);
-      }
+      const e = new Date().getTime(),
+        s = (e - this.startTime) / 1000;
+      this.log("", `🔔${this.name}, 结束! 🕛 ${s} 秒`), this.log(), (this.isSurge() || this.isQuanX() || this.isLoon()) && $done(t);
     }
   }(t, e);
 }
